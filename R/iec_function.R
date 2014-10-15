@@ -7,8 +7,8 @@
 ### Consider renaming main function "calcIEC", "estIEC", "estSiteIEC", or
 ### "siteIEC".
 #
-# This script defines the function "score_sites" which calculates Index of
-# Ecological Condition (IEC) scores. The function "score_sites"
+# This script defines the function "iec_score" which calculates Index of
+# Ecological Condition (IEC) scores. The function "iec_score"
 # ("iec_site_score" at the time) was originally used for Erin E. G. Giese's
 # thesis (2012).  Giese's thesis used the script
 # "IEC_Application_NoForLoopExp20120328.r" which this current script is based
@@ -18,18 +18,18 @@
 # "BR_function.r".
 #
 # Input:
-# The first argument ("sp") of the function "score_sites" takes a data frame
+# The first argument ("sp") of the function "iec_score" takes a data frame
 # with the following structure: (1) the column names must contain the species
 # names (or other taxa as defined by the analyst), (2) all rows must
 # contain the observations for each species at each site (one row per site;
 # see example at the beginning of the function).  Observations for method
 # "calcLSq" should only be probabilities, but observations for method
 # "calcLik" (default) can be probabilities, abundance, or presence/absence.
-# The second argument ("brc") to "score_sites" is a data frame produced by
+# The second argument ("brc") to "iec_score" is a data frame produced by
 # function "mk_brc".  Data frame "brc" contains the parameters describing the
 # BR function for each species (or other taxonomic groups) to be used in
 # estimating site IEC scores.
-# The remaining arguments to "score_sites" are optional.
+# The remaining arguments to "iec_score" are optional.
 # "method" is used to set the criteria to use for estimating IEC.  "method"
 # can be set to "calcLik" (default), or "calcLSq".  Method "calcLik" is used
 # where present/absents data are available, and method "calcLSq" is used if
@@ -41,17 +41,17 @@
 # species.  Error checking will alert the analyst if there are differences
 # between the two data frames.  The order of the species is not important as
 # the function reorders them before starting the analysis.  Future versions
-# of "score_sites" may be written so that only species in "brc" are used for
+# of "iec_score" may be written so that only species in "brc" are used for
 # scoring sites.
 #
 # Output:
-# The function "score_sites" returns a data frame with sites in rows and the
+# The function "iec_score" returns a data frame with sites in rows and the
 # estimated IEC and log-likelihood for each site in columns.  It also writes
 # this data frame to CSV file in the current working directory.  The naming
 # format of the output files includes year, month, date, hour, minute, and
 # second.
 #
-# Structure of function "score_sites":
+# Structure of function "iec_score":
 # * Section "Error checking" ensures that input variables "sp" and "brc"
 #   are both data frames, and that they contain the same species.  If any of
 #   these criteria are not met, an error is raised and the function exits with
@@ -72,7 +72,7 @@
 #   number of times specified by input variable "n_reps".  "nlminb" tries to
 #   minimize  the likelihood function returned by function "f".
 # * Section "Save output" saves the resulting IEC scores estimated for each
-#   site to CSV file.  Should you forget to set the output of "score_sites" to
+#   site to CSV file.  Should you forget to set the output of "iec_score" to
 #   a variable, the results can simply be loaded from the output csv file.
 #
 # Authors: Nicholas G. Walton and Robert W. Howe
@@ -85,7 +85,7 @@
 # Last modified: 14 Oct 2014
 
 
-score_sites <- function(sp, brc, method = "calcLik", n_reps = 30) {
+iec_score <- function(sp, brc, method = "calcLik", n_reps = 30) {
 
   # The input "sp" is a data frame containing the observations for each
   # species or other taxa (abundance or presence/absence) at each site.
@@ -109,13 +109,13 @@ score_sites <- function(sp, brc, method = "calcLik", n_reps = 30) {
   ## Error checking ----
 
   # Check that the input "sp" and "brc" are both data frames.
-  # If not, print an error message and exit function "score_sites".
+  # If not, print an error message and exit function "iec_score".
   if (!is.data.frame(sp) | !is.data.frame(brc)) {
     stop("The first and second input variables must be data frames.")
   }
 
   # Check that "sp" and "brc" contain the same taxa.
-  # If not, print an error message and exit function "score_sites".
+  # If not, print an error message and exit function "iec_score".
   if (ncol(sp) != nrow(brc)) {  # Check for same number of taxa
     stop("Species observation and BRC tables have diffents number of taxa.")
   } else if (!identical(as.character(names(sp)), as.character(brc[, 1]))) {
