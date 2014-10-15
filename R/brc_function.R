@@ -46,7 +46,26 @@
 # This script differs from E. Giese's thesis in that the observations in "sp"
 # are not constrained to be probabilities.
 
-
+#' Make biotic response curves (BRC).
+#'
+#' \code{mk_brc} generates biotic response curves (BRC) for each taxon in
+#' \code{sp} in relation to environmental gradient \code{gradient}.
+#'
+#' The biotic response curves (BRCs) or functions returned by \code{mk_brc} are
+#' normal curves fit to the observations in \code{sp} using a lack-of-fit (LOF)
+#' criteria. BRCs consist of a normal curve defined by mean (mu) and standard
+#' deviation (sigma) which is multiplied (scaled) a height factor (H).  The
+#' reference gradient (\code{gradient}) input to \code{mk_brc} must be a be a
+#' numeric vector scaled to 0-10 where 10 represents the least impacted site.
+#' Use \code{\link{scale10}} to scale the reference gradient if needed. Note
+#' that \code{gradient} must the sorted in the same order as \code{sp}. The
+#' results of \code{mk_brc} are used to give sites an Index of Ecological
+#' Condition score using function \code{\link{iec_score}}.
+#'
+#' @param sp A community data frame (sites as rows, taxa as columns).
+#' @param gradient A numeric vector of reference gradient scores (0-10), one for
+#'   each site.
+#' @return A data frame defining BRCs for each taxa in \code{sp}.
 mk_brc <- function(sp, gradient) {
   # The input "sp" is a data frame containing the observations of
   # each species or other taxa.  The column names of "sp" must
