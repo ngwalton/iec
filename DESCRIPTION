@@ -1,8 +1,11 @@
 Package: iec
-Title: What the package does (one line)
+Title: Index of Ecological Condition (IEC)
 Version: 0.1
-Authors@R: "First Last <first.last@example.com> [aut, cre]"
+Authors@R: as.person(c(
+    "Nicholas G Walton <ngwalton@gmail.com> [cre, aut]",
+    "Robert W Howe <hower@uwgb.edu> [aut]"
+  ))
 Description: What the package does (one paragraph)
 Depends: R (>= 3.1.1)
-License: What license is it under?
+License: MIT + file LICENSE
 LazyData: true
