@@ -52,7 +52,7 @@ get_sens <- function(sp, gradient, mid = 5) {
 #'
 #' \code{scale10} scales an environmental gradient to the range 0-10.
 #' Optionally, it can invert the scale.  This is essential for use with
-#' \link{get_brc}.
+#' \code{\link{mk_brc}}.
 #'
 #' @param invert A logical scalar indicating if the gradient should be inverted
 #'   (defaults to \code{FALSE}).
