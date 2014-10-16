@@ -82,9 +82,24 @@
 # resembles April files (right?  based on BRC script comments)
 #
 # Created: Mar 2013(?)
-# Last modified: 14 Oct 2014
+# Last modified: 15 Oct 2014
 
-
+#' Calculate IEC site score.
+#'
+#' \code{iec_score} estimates Index of Ecological Condition (IEC) for each site
+#' in \code{sp}.
+#'
+#' Index of Ecological Condition (IEC) is estimated for each site based on the
+#' obserbed taxa.  Need to indicate when you'd use "calcLSq" vs "calcLik".
+#' \code{n_reps} determines the number of times function
+#' \code{\link[stats]{nlminb}} is run with differnt starting values.
+#'
+#' @param method A sting of "calcLSq" or "calcLik" (default).
+#' @param n_reps A numeric scalar indicating number of random starts (defaults
+#'   to 30).
+#' @inheritParams mk_brc
+#' @return A data frame containing the IEC scores for each site in \code{sp} and
+#'   the corresponding likelihood of the score.
 iec_score <- function(sp, brc, method = "calcLik", n_reps = 30) {
 
   # The input "sp" is a data frame containing the observations for each
