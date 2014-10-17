@@ -1,76 +1,67 @@
-### This script works as described but is NOT THE FINAL PRODUCT.
-### All that remains:
-### I still need to get file names for original Excel files (see comments)
-#
 # This script defines the function "mk_brc" which calculates Biotic Response
-# (BR) functions, AKA Biotic Response Curves (BRC). The function "mk_brc"
-# ("iec_builder" a the time) was originally used for Erin E. G. Giese's thesis
+# functions, AKA Biotic Response Curves (BRC). The function "mk_brc"
+# ("iec_builder" at the time) was originally used for Erin E. G. Giese's thesis
 # (2012).  Giese's thesis used the script "IEC_Builder20120328.r" which this
 # current script is based on.  The purpose of this script is to calculate
 # Biotic Response (BR) functions for many species or other taxa using a
 # single function.
 #
-# Input:
-# The first argument ("sp") of the function "mk_brc" excepts a
-# data frame with sites as rows and taxa as columns (community data frame).
-# The second argument ("gradient") is a numeric vector containing the gradient
-# score for each site.  This vector must has the same order as "sp" and must
-# be scaled to 0 - 10 with 10 indicated the desirable condition.
-#
-# Output:
-# The function "mk_brc" returns a data frame with taxa in rows (1st column) and
-# the calculated values for each taxa in columns.
+# Original file (used for E. Giese's thesis): "IEC_Builder20120328.r"
+#   File "IEC_Builder20120328.r" was based on March Excel files but most
+#   closely resembles April files.
+# "mk_brc" script differs from E. Giese's thesis in that observations in "sp"
+# are not constrained to be probabilities.
 #
 # Structure of function "mk_brc":
-# * Section "Declarations" contains variables that will be used later in the
-#   function.  These include the constraints placed on the optimization
-#   function nlminb().  This is where you could modify the constraints if
+# * "Error checking" checks that "sp" is a data frame, that "gradient" is
+#   scaled to the range 0-10, and that "sp" and "gradient" have the same
+#   number records.
+# * "Declarations" contains variables that will be used later in the
+#   "mk_brc".  These include the constraints placed on the optimization
+#   function "nlminb".  This is where you could modify the constraints if
 #   desired.
 #   In general, these are the only variables you are likely to modify in this
-#   script.
-# * Section "Functions" contains two functions embedded in "mk_brc".  Function
-#   "f" returns the lack-of-fit criterion which is minimized by nlminb().
+#   function.
+# * "Functions" contains two functions embedded in "mk_brc".  Function
+#   "f" returns the lack-of-fit criterion which is minimized by "nlminb".
 #   Function "nl_r2" returns the none-linear R-square value used for evaluating
-#   the BRC after analysis.
-# * Section "for loop going over all species" contains a for loop that
-#   processes each taxa in turn. nlminb() tries to minimize the lack-of-fit
+#   the BRC after minimizing "f".
+# * "for loop over each species" contains a for loop that
+#   processes each taxa in turn. "nlminb" tries to minimize the lack-of-fit
 #   score returned by function "f".
 #
 # Authors: Nicholas G. Walton and Robert W. Howe
 # Created: Mar 2012
-# Last updated: 14 Oct 2014
-#
-# Original file (used for E. Giese's thesis): "IEC_Builder20120328.r"
-#   File "IEC_Builder20120328.r" was based on March Excel files but most
-#   closely resembles April files.
-# This script differs from E. Giese's thesis in that the observations in "sp"
-# are not constrained to be probabilities.
+# Last updated: 15 Oct 2014
 
 #' Make biotic response curves (BRC).
 #'
-#' \code{mk_brc} generates biotic response curves (BRC) for each taxon in
-#' \code{sp} in relation to environmental gradient \code{gradient}.
+#' \code{mk_brc} generates biotic response curves (BRC) for each species or
+#' taxon in \code{sp} in relation to environmental gradient \code{gradient}.
 #'
 #' The biotic response curves (BRCs) or functions returned by \code{mk_brc} are
 #' normal curves fit to the observations in \code{sp} using a lack-of-fit (LOF)
 #' criteria. BRCs consist of a normal curve defined by mean (mu) and standard
-#' deviation (sigma) which is multiplied (scaled) a height factor (H).  The
+#' deviation (sigma), which is multiplied (scaled) a height factor (H).  The
 #' reference gradient (\code{gradient}) input to \code{mk_brc} must be a be a
 #' numeric vector scaled to 0-10 where 10 represents the least impacted site.
 #' Use \code{\link{scale10}} to scale the reference gradient if needed. Note
-#' that \code{gradient} must the sorted in the same order as \code{sp}. The
+#' that \code{gradient} must have the same order by site as \code{sp}. The
 #' results of \code{mk_brc} are used to give sites an Index of Ecological
 #' Condition score using function \code{\link{iec_score}}.
 #'
-#' @param sp A community data frame (sites as rows, taxa as columns).
-#' @param gradient A numeric vector of reference gradient scores (0-10), one for
+#' @param sp community data frame (sites as rows, taxa as columns,
+#'   observations as values).
+#' @param gradient numeric vector of reference gradient scores (0-10), one for
 #'   each site.
-#' @return A data frame defining BRCs for each taxa in \code{sp}.
+#' @return A data frame defining BRCs for each species or other taxa in
+#'   \code{sp}.
+#' @seealso \code{\link{scale10}}
 mk_brc <- function(sp, gradient) {
   # The input "sp" is a data frame containing the observations of
-  # each species or other taxa.  The column names of "sp" must
+  # each species or other taxa.  The row names of "sp" must
   # be site names.  All columns must contain
-  # the probability of each species at each site (rows).
+  # the observations of each species at each site (rows).
 
   # Example of "sp":
   # row.names   species(1)    species(2)    species(...)   species(n)
@@ -88,7 +79,6 @@ mk_brc <- function(sp, gradient) {
   ## Error checking ----
 
   # Check that the input "sp" is a data frame.
-  # If not, print an error message and exit function "mk_brc".
   if (!is.data.frame(sp)) {
     stop("The first input variable must be a data frame.")
   }
@@ -98,16 +88,13 @@ mk_brc <- function(sp, gradient) {
     stop("gradient is not scaled from 0 to 10.")
   }
 
-  # Check that "gradient" and "sp" have the same number of rows.
+  # Check that "gradient" and "sp" have the same number of records.
   if (length(gradient) != nrow(sp)) {
-    stop("sp and gradient do not have the same numer of rows.")
+    stop("sp and gradient do not have the same numer of records.")
   }
 
 
   ## Declarations ----
-
-  # Set the number of times the nlminb() function will be run on each species.
-  # n_reps <- 100
 
   # Constraints on optimization - nlminb()
   mu_min <- -10  # Mean lower bound
@@ -117,13 +104,6 @@ mk_brc <- function(sp, gradient) {
   sd_max <-  10  # SD upper bound
   ht_min <-   0  # Height scaler lower bound
   ht_max <- Inf  # Height scaler upper bound
-
-  # Set variable "gradient" to the first column in the input data frame which
-  # contains the condition gradient.
-  # gradient <- sp[, 1]
-
-  # Strip the gradient from "sp" - simplifies later for-loops.
-  # sp <- sp[, -1]
 
   # Generate a data frame to hold the output parameters of BR function.
   # This is an empty data frame with 6 columns - data types defined.
@@ -143,10 +123,10 @@ mk_brc <- function(sp, gradient) {
     # This function returns the Lack of Fit (LOF) score which will be
     # minimized with function "nlminb".
     # x is a numeric vector containing c(Mean, SD, H).
-    # Note that gradient and observed are called from outside the function,
-    # but there doesn't seem to be a better way to do this with "nlminb".
+    # Note that gradient and observed are called from outside the function.
+    # Consider passing from "nlminb", but may slow down processing.
 
-    # Long version of LOF score:
+    # LOF equation:
     # [(observed-expected)^2]/expected
 
     mu_f <- x[1]  # Mean
@@ -156,14 +136,14 @@ mk_brc <- function(sp, gradient) {
     # Calculate the expected values (Exp) based on the current curve.
     expected <- dnorm(gradient, mu_f, sd_f) * ht_f
 
-    # Calculate the squared deviation for each observation - (Obs-Exp)^2.
+    # Calculate the squared deviation for each observation.
     obs_ex2 <- (observed - expected) ^ 2
 
     # Calculate and return the LOF statistic.
     # Ensure that expected is 0.001 or greater.
-    expected[expected < 0.001] <- 0.001  # faster than using pmax
+    expected[expected < 0.001] <- 0.001  # Faster than using pmax.
 
-    sum(obs_ex2 / expected) # Return the Lack of Fit score (O-E)2/(E).
+    sum(obs_ex2 / expected) # Return the Lack of Fit score.
   }
 
   nl_r2 <- function(observed, mu, sd, ht) {
@@ -187,12 +167,11 @@ mk_brc <- function(sp, gradient) {
   }
 
   # Note that this function should be removed when we switch to making this a
-  # function.
+  # package.
   get_sens <- function(obs_df, gradient, mid = 5) {
     # obs_df is a data frame containing species observations with
     # rows as sites, and columns as taxa.
-    # gradient is a vector or data frame of reference gradient values
-    # at each site.
+    # gradient is a vector of reference gradient values at each site.
     # Returns a data frame with taxa as rows, and columns Sens (sensitivity)
     # N (numer of cites where the taxon was detected).
 
@@ -243,12 +222,7 @@ mk_brc <- function(sp, gradient) {
   }
 
 
-  ## Calculate sensistivity ----
-
-  sens <- get_sens(sp, gradient)
-
-
-  ## for loop going over all species ----
+  ## for loop over each species ----
 
   # This for loop iteratively processes each species in the data frame
   # "sp".
@@ -264,18 +238,6 @@ mk_brc <- function(sp, gradient) {
     br_start <- get_strat(mu_min, mu_max, sd_min, sd_max)
 
     for (i in 1:nrow(br_start)) {
-
-      # "n_reps" and the following bounds are set in the "Declarations"
-      # section of this function.
-
-      # The following values are random staring values for the mean,
-      # standard deviation, and height.  These will be used by function
-      # "nlminb" as a starting point for its algorithm.
-      # mu_rand <- runif(1, min = mu_min, max = mu_max)
-      # sd_rand <- runif(1, min = sd_min, max = sd_max)
-      # ht_rand <- runif(1, min = ht_min, max = 50)
-
-
 
       # Run "nlminb"
       result <- nlminb(start = br_start[i, ], objective = f,
@@ -307,6 +269,8 @@ mk_brc <- function(sp, gradient) {
 
 
   ## Add sensitivity ----
+
+  sens <- get_sens(sp, gradient)
 
   brc_pars <- cbind(brc_pars, sens)
 
