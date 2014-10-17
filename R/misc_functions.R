@@ -2,7 +2,7 @@
 #
 # Authors: Nicholas G. Walton and Robert W. Howe
 # Created 14 Oct 2014
-# Last modified: 15 Oct 2014
+# Last modified: 17 Oct 2014
 
 
 ## sensitivity function ----
@@ -20,7 +20,7 @@
 #' requires that the reference gradient be scaled to 0-10, \code{get_sens} does
 #' not.
 #'
-#' @param mid A numeric scalar taken as the gradient's midpoint for sensitivity.
+#' @param mid numeric scalar taken as the gradient's midpoint for sensitivity (default is 5).
 #' @inheritParams mk_brc
 #' @return A data frame containing each taxon's sensitivity (\code{Sens}) to the
 #'   gradient, and the number of sites the they were detected at (\code{n}).
@@ -54,7 +54,7 @@ get_sens <- function(sp, gradient, mid = 5) {
 #' Optionally, it can invert the scale.  This is essential for use with
 #' \code{\link{mk_brc}}.
 #'
-#' @param invert A logical scalar indicating if the gradient should be inverted
+#' @param invert logical indicating if the gradient should be inverted
 #'   (defaults to \code{FALSE}).
 #' @inheritParams mk_brc
 #' @return A numeric vector with \code{gradient} scaled to 0-10.
