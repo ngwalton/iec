@@ -2,3 +2,4 @@
 ^\.Rproj\.user$
 ^.*\.git$
 ^.*\.git/.*$
+^data-raw$
