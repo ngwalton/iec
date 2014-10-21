@@ -13,8 +13,8 @@
 # are not constrained to be probabilities.
 #
 # Structure of function "est_brc":
-# * "Error checking" checks that "sp" is a data frame, that "gradient" is
-#   scaled to the range 0-10, and that "sp" and "gradient" have the same
+# * "Error checking" checks that "sp" is a data frame, that "ref_grad" is
+#   scaled to the range 0-10, and that "sp" and "ref_grad" have the same
 #   number records.
 # * "Declarations" contains variables that will be used later in the
 #   "est_brc".  These include the constraints placed on the optimization
@@ -37,27 +37,28 @@
 #' Make biotic response curves (BRC).
 #'
 #' \code{est_brc} generates biotic response curves (BRC) for each species or
-#' taxon in \code{sp} in relation to environmental gradient \code{gradient}.
+#' taxon in \code{sp} in relation to environmental reference gradient
+#' \code{ref_grad}.
 #'
 #' The biotic response curves (BRCs) or functions returned by \code{est_brc} are
 #' normal curves fit to the observations in \code{sp} using a lack-of-fit (LOF)
 #' criteria. BRCs consist of a normal curve defined by mean (mu) and standard
 #' deviation (sigma), which is multiplied (scaled) a height factor (H).  The
-#' reference gradient (\code{gradient}) input to \code{est_brc} must be a be a
+#' reference gradient (\code{ref_grad}) input to \code{est_brc} must be a be a
 #' numeric vector scaled to 0-10 where 10 represents the least impacted site.
 #' Use \code{\link{scale10}} to scale the reference gradient if needed. Note
-#' that \code{gradient} must have the same order by site as \code{sp}. The
+#' that \code{ref_grad} must have the same order by site as \code{sp}. The
 #' results of \code{est_brc} are used to give sites an Index of Ecological
 #' Condition score using function \code{\link{est_iec}}.
 #'
-#' @param sp community data frame (sites as rows, taxa as columns,
-#'   observations as values).
-#' @param gradient numeric vector of reference gradient scores (0-10), one for
+#' @param sp community data frame (sites as rows, taxa as columns, observations
+#'   as values).
+#' @param ref_grad numeric vector of reference gradient scores (0-10), one for
 #'   each site.
 #' @return A data frame defining BRCs for each species or other taxa in
 #'   \code{sp}.
 #' @seealso \code{\link{scale10}}
-est_brc <- function(sp, gradient) {
+est_brc <- function(sp, ref_grad) {
   # The input "sp" is a data frame containing the observations of
   # each species or other taxa.  The row names of "sp" must
   # be site names.  All columns must contain
@@ -71,9 +72,10 @@ est_brc <- function(sp, gradient) {
   #  ...              ...           ...             ...          ...
   # "120"           0.693         0.737             ...        0.532
 
-  # Input "gradient" in a numeric vector containing the environmental gradient
-  # for each site. "gradient" must be scaled from 0 - 10 with 10 being the
-  # desirable condition. "sp" and "gradient" must have the same order by site.
+  # Input "ref_grad" in a numeric vector containing the environmental reference
+  # gradient for each site. "ref_grad" must be scaled from 0 - 10 with 10 being
+  # the desirable condition. "sp" and "ref_grad" must have the same order by
+  # site.
 
 
   ## Error checking ----
@@ -83,14 +85,14 @@ est_brc <- function(sp, gradient) {
     stop("The first input variable must be a data frame.")
   }
 
-  # Check that "gradient" is scaled correctly.
-  if (min(gradient) != 0 | max(gradient) != 10) {
-    stop("gradient is not scaled from 0 to 10.")
+  # Check that "ref_grad" is scaled correctly.
+  if (min(ref_grad) != 0 | max(ref_grad) != 10) {
+    stop("ref_grad is not scaled from 0 to 10.")
   }
 
-  # Check that "gradient" and "sp" have the same number of records.
-  if (length(gradient) != nrow(sp)) {
-    stop("sp and gradient do not have the same numer of records.")
+  # Check that "ref_grad" and "sp" have the same number of records.
+  if (length(ref_grad) != nrow(sp)) {
+    stop("sp and ref_grad do not have the same numer of records.")
   }
 
 
@@ -123,7 +125,7 @@ est_brc <- function(sp, gradient) {
     # This function returns the Lack of Fit (LOF) score which will be
     # minimized with function "nlminb".
     # x is a numeric vector containing c(Mean, SD, H).
-    # Note that gradient and observed are called from outside the function.
+    # Note that ref_grad and observed are called from outside the function.
     # Consider passing from "nlminb", but may slow down processing.
 
     # LOF equation:
@@ -134,7 +136,7 @@ est_brc <- function(sp, gradient) {
     ht_f <- x[3]  # A scaling factor for height of normal curve
 
     # Calculate the expected values (Exp) based on the current curve.
-    expected <- dnorm(gradient, mu_f, sd_f) * ht_f
+    expected <- dnorm(ref_grad, mu_f, sd_f) * ht_f
 
     # Calculate the squared deviation for each observation.
     obs_ex2 <- (observed - expected) ^ 2
@@ -154,7 +156,7 @@ est_brc <- function(sp, gradient) {
     # http://www.mcb5068.wustl.edu/MCB/Lecturers/Baranski/Articles/RegressionBook.pdf (p.34-35)
 
     # Expected values for each site.
-    expected <- dnorm(gradient, mu, sd) * ht
+    expected <- dnorm(ref_grad, mu, sd) * ht
 
     # Sum of squared deviances from the nonlinear regression line.
     ss_reg <- sum((observed - expected) ^ 2)
@@ -270,7 +272,7 @@ est_brc <- function(sp, gradient) {
 
   ## Add sensitivity ----
 
-  sens <- get_sens(sp, gradient)
+  sens <- get_sens(sp, ref_grad)
 
   brc_pars <- cbind(brc_pars, sens)
 
