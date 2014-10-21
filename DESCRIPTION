@@ -4,8 +4,12 @@ Version: 0.1
 Authors@R: as.person(c(
     "Nicholas G Walton <ngwalton@gmail.com> [aut, cre]",
     "Robert W Howe <hower@uwgb.edu> [aut]"
-  ))
+    ))
 Description: What the package does (one paragraph)
-Depends: R (>= 3.1.1)
+Depends:
+    R (>= 3.1.1)
 License: MIT + file LICENSE
 LazyData: true
+Suggests:
+    knitr
+VignetteBuilder: knitr

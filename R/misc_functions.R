@@ -2,7 +2,7 @@
 #
 # Authors: Nicholas G. Walton and Robert W. Howe
 # Created 14 Oct 2014
-# Last modified: 17 Oct 2014
+# Last modified: 21 Oct 2014
 
 
 ## sensitivity function ----
@@ -20,7 +20,8 @@
 #' requires that the reference gradient be scaled to 0-10, \code{get_sens} does
 #' not.
 #'
-#' @param mid numeric scalar taken as the gradient's midpoint for sensitivity (default is 5).
+#' @param mid numeric scalar taken as the gradient's midpoint for sensitivity
+#'   (default is 5).
 #' @inheritParams mk_brc
 #' @return A data frame containing each taxon's sensitivity (\code{Sens}) to the
 #'   gradient, and the number of sites the they were detected at (\code{n}).
@@ -37,8 +38,7 @@ get_sens <- function(sp, gradient, mid = 5) {
     low <- sum(pres & grad < mid)
     high <- n - low
     s <- (high - low) / n
-    x <- c(Sens = s, n = n)
-    x
+    c(Sens = s, n = n)
   }
 
   res_matrix <- t(apply(sp, 2, sens, gradient))
