@@ -120,6 +120,11 @@ plot_brc <- function(sp, brc, ref_grad) {
 #' @examples
 #' brc_pdf("output.pdf", sp, brc, grad)
 brc_pdf <- function(out_pdf, sp, brc, ref_grad, min_lof = 1) {
+  # check/fix extension
+  if (!grepl("\\.pdf$", out_pdf, ignore.case = TRUE)) {
+    out_pdf <- paste(out_pdf, ".pdf", sep = "")
+  }
+
   # Unless the output figure file already exists, plot the figures.
   if (file.exists(out_pdf)) {
     # "out_pdf" is set in the "Declarations" section of this script.
@@ -238,8 +243,8 @@ plot_iec_cor <- function (iec, sp, env_grad, title) {
   plot_title <- paste("IEC scores for ", title)
   grad_name  <- names(env_grad)[1]
 
-  plot(env_grad[, 1], iec$IEC, xlab = paste("Original gradient:", grad_name), ylab = "IEC",
-       main = plot_title, cex.sub = 0.8)
+  plot(env_grad[, 1], iec$IEC, xlab = paste("Original gradient:", grad_name),
+       ylab = "IEC", main = plot_title, cex.sub = 0.8)
   mtext(Sys.time(), side = 3, cex = 0.8)
   abline(plotstats)
 
