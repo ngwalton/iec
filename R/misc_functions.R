@@ -16,13 +16,13 @@
 #' above and below the midpoint (\code{mid}) of the gradient, taking their
 #' difference, and finally dividing this by the number of detections. Taxa with
 #' more detections below (\code{mid}) than above will have a negative
-#' sensitivity and vice versa. Note that while function \code{\link{mk_brc}}
+#' sensitivity and vice versa. Note that while function \code{\link{est_brc}}
 #' requires that the reference gradient be scaled to 0-10, \code{get_sens} does
 #' not.
 #'
 #' @param mid numeric scalar taken as the gradient's midpoint for sensitivity
 #'   (default is 5).
-#' @inheritParams mk_brc
+#' @inheritParams est_brc
 #' @return A data frame containing each taxon's sensitivity (\code{Sens}) to the
 #'   gradient, and the number of sites the they were detected at (\code{n}).
 #' @examples
@@ -52,11 +52,11 @@ get_sens <- function(sp, gradient, mid = 5) {
 #'
 #' \code{scale10} scales an environmental gradient to the range 0-10.
 #' Optionally, it can invert the scale.  This is essential for use with
-#' \code{\link{mk_brc}}.
+#' \code{\link{est_brc}}.
 #'
 #' @param invert logical indicating if the gradient should be inverted
 #'   (defaults to \code{FALSE}).
-#' @inheritParams mk_brc
+#' @inheritParams est_brc
 #' @return A numeric vector with \code{gradient} scaled to 0-10.
 #' @examples
 #' grad <- runif(10)

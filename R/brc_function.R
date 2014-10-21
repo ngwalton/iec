@@ -1,5 +1,5 @@
-# This script defines the function "mk_brc" which calculates Biotic Response
-# functions, AKA Biotic Response Curves (BRC). The function "mk_brc"
+# This script defines the function "est_brc" which calculates Biotic Response
+# functions, AKA Biotic Response Curves (BRC). The function "est_brc"
 # ("iec_builder" at the time) was originally used for Erin E. G. Giese's thesis
 # (2012).  Giese's thesis used the script "IEC_Builder20120328.r" which this
 # current script is based on.  The purpose of this script is to calculate
@@ -9,20 +9,20 @@
 # Original file (used for E. Giese's thesis): "IEC_Builder20120328.r"
 #   File "IEC_Builder20120328.r" was based on March Excel files but most
 #   closely resembles April files.
-# "mk_brc" script differs from E. Giese's thesis in that observations in "sp"
+# "est_brc" script differs from E. Giese's thesis in that observations in "sp"
 # are not constrained to be probabilities.
 #
-# Structure of function "mk_brc":
+# Structure of function "est_brc":
 # * "Error checking" checks that "sp" is a data frame, that "gradient" is
 #   scaled to the range 0-10, and that "sp" and "gradient" have the same
 #   number records.
 # * "Declarations" contains variables that will be used later in the
-#   "mk_brc".  These include the constraints placed on the optimization
+#   "est_brc".  These include the constraints placed on the optimization
 #   function "nlminb".  This is where you could modify the constraints if
 #   desired.
 #   In general, these are the only variables you are likely to modify in this
 #   function.
-# * "Functions" contains two functions embedded in "mk_brc".  Function
+# * "Functions" contains two functions embedded in "est_brc".  Function
 #   "f" returns the lack-of-fit criterion which is minimized by "nlminb".
 #   Function "nl_r2" returns the none-linear R-square value used for evaluating
 #   the BRC after minimizing "f".
@@ -36,19 +36,19 @@
 
 #' Make biotic response curves (BRC).
 #'
-#' \code{mk_brc} generates biotic response curves (BRC) for each species or
+#' \code{est_brc} generates biotic response curves (BRC) for each species or
 #' taxon in \code{sp} in relation to environmental gradient \code{gradient}.
 #'
-#' The biotic response curves (BRCs) or functions returned by \code{mk_brc} are
+#' The biotic response curves (BRCs) or functions returned by \code{est_brc} are
 #' normal curves fit to the observations in \code{sp} using a lack-of-fit (LOF)
 #' criteria. BRCs consist of a normal curve defined by mean (mu) and standard
 #' deviation (sigma), which is multiplied (scaled) a height factor (H).  The
-#' reference gradient (\code{gradient}) input to \code{mk_brc} must be a be a
+#' reference gradient (\code{gradient}) input to \code{est_brc} must be a be a
 #' numeric vector scaled to 0-10 where 10 represents the least impacted site.
 #' Use \code{\link{scale10}} to scale the reference gradient if needed. Note
 #' that \code{gradient} must have the same order by site as \code{sp}. The
-#' results of \code{mk_brc} are used to give sites an Index of Ecological
-#' Condition score using function \code{\link{iec_score}}.
+#' results of \code{est_brc} are used to give sites an Index of Ecological
+#' Condition score using function \code{\link{est_iec}}.
 #'
 #' @param sp community data frame (sites as rows, taxa as columns,
 #'   observations as values).
@@ -57,7 +57,7 @@
 #' @return A data frame defining BRCs for each species or other taxa in
 #'   \code{sp}.
 #' @seealso \code{\link{scale10}}
-mk_brc <- function(sp, gradient) {
+est_brc <- function(sp, gradient) {
   # The input "sp" is a data frame containing the observations of
   # each species or other taxa.  The row names of "sp" must
   # be site names.  All columns must contain
