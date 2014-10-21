@@ -133,21 +133,21 @@ plot_resp <- function (sp, iec, brc, method) {
   # this needs to be rewritten with externalized method selection and f
 
   # Set method/criteria for estimating IEC
-  # Return function for calcLSq or calcLik based on "method"
-  # Method must be set to "calcLSq" or "calcLik"
-  if (method == "calcLSq") {
+  # Return function for quant or pa based on "method"
+  # Method must be set to "quant" or "pa"
+  if (method == "quant") {
     criteria <- function(pc, observed) {
-      # Least-squares method (AKA "calcLSq").
+      # Least-squares method (AKA "quant").
       # Note that currently the output from this will have the
       # Oposite sign of that from the Excel spread sheet.
       # This needs to be fixed, but will also require modifications to
-      # "calcLik".
+      # "pa".
       numerator <- (observed - pc) ^ 2
       sum(numerator / pc)   # (Obs-Exp)^2 / Exp
     }
   } else {
     criteria <- function(pc, observed) {
-      # Likelihood method (AKA "calcLik").
+      # Likelihood method (AKA "pa").
       # Calculate lack-of-fit expression ("lof") for each species.
       lof <- rep(NA, length(pc))  # set lof to length of pc.
       # If species is present at the current site, set to Log P(C).
@@ -179,7 +179,7 @@ plot_resp <- function (sp, iec, brc, method) {
     pc[pc == 0] <- .001        # Set 0 probabilities to .001.
 
     # criteria is set in the Declarations section of this script.
-    # It is set to either calcLik (default) or calcLSq.
+    # It is set to either pa (default) or quant.
     criteria(pc, observed)
   }
 
