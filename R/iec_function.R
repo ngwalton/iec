@@ -54,7 +54,7 @@
 #' site in \code{sp} based on the biotic response curves (BRC) in \code{brc}.
 #'
 #' An Index of Ecological Condition (IEC) score is estimated for each site in
-#' data fram \code{sp}. The default method treats observations as
+#' data frame \code{sp}. The default method treats observations as
 #' presence/absence (\code{method = "pa"}).  When quantitative obervations are
 #' available, set \code{method} to \code{quant}. \code{n_reps} determines the
 #' number of times the optimization function (\code{\link[stats]{nlminb}}) is
