@@ -30,7 +30,7 @@
 #
 # Authors: Nicholas G. Walton and Robert W. Howe
 # Created: Mar 2012
-# Last updated: 15 Oct 2014
+# Last updated: 22 Oct 2014
 
 #' Make biotic response curves (BRC).
 #'
@@ -146,28 +146,6 @@ est_brc <- function(sp, ref_grad) {
     sum(obs_ex2 / expected) # Return the Lack of Fit score.
   }
 
-  # Note that this function should be removed when we switch to making this a
-  # package.
-  get_sens <- function(obs_df, gradient, mid = 5) {
-    # obs_df is a data frame containing species observations with
-    # rows as sites, and columns as taxa.
-    # gradient is a vector of reference gradient values at each site.
-    # Returns a data frame with taxa as rows, and columns Sens (sensitivity)
-    # N (numer of cites where the taxon was detected).
-
-    sens <- function(obs_vect, grad) {
-      pres <- obs_vect > 0
-      n <- sum(pres)
-      low <- sum(pres & grad < mid)
-      high <- n - low
-      s <- (high - low) / n
-      x <- c(Sens = s, n = n)
-      x
-    }
-
-    res_matrix <- t(apply(obs_df, 2, sens, gradient))
-    data.frame(res_matrix)
-  }
 
   get_strat <- function(mu_min, mu_max, sd_min, sd_max) {
     # returns a 48 x 3 data frame of stratified starting values for f
@@ -256,7 +234,7 @@ est_brc <- function(sp, ref_grad) {
 
   ## Add sensitivity ----
 
-  sens <- get_sens(sp, ref_grad)
+  sens <- iec::get_sens(sp, ref_grad)
 
   brc_pars <- cbind(brc_pars, sens)
 
