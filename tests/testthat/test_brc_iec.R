@@ -27,9 +27,9 @@ iec <- function(brc){
 
 
 test_that("est_brc returns the same thing each time", {
-  expect_equal_to_reference(brc, "./refs/brc_res.rda")
+  expect_equal_to_reference(brc, "./refs/brc_res.rds")
 })
 
 test_that("est_iec returns the same thing each time", {
-  expect_equal_to_reference(iec(brc), "./refs/iec_res.rda")
+  expect_equal_to_reference(iec(brc), "./refs/iec_res.rds")
 })
