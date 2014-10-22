@@ -194,7 +194,7 @@ est_iec <- function(sp, brc, method = "pa", n_reps = 30) {
     # P(C) is the probability or value of each species at given IEC.
     # Input values "Mean", "SD", and "H" are part of data frame "brc".
     pc <- with(brc, {dnorm(x, mean = Mean, sd = SD) * H})
-    pc[pc == 0] <- .001        # Set 0 probabilities to .001.
+    pc[pc < .001] <- .001        # Set 0 probabilities to .001.
 
     # criteria is set in the Declarations section of this script.
     # It is set to either "pa" (default) or "quant".

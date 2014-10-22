@@ -141,12 +141,12 @@ est_brc <- function(sp, ref_grad) {
     # Calculate the expected values (Exp) based on the current curve.
     expected <- dnorm(ref_grad, mu_f, sd_f) * ht_f
 
-    # Calculate the squared deviation for each observation.
-    obs_ex2 <- (observed - expected) ^ 2
-
     # Calculate and return the LOF statistic.
     # Ensure that expected is 0.001 or greater.
     expected[expected < 0.001] <- 0.001  # Faster than using pmax.
+
+    # Calculate the squared deviation for each observation.
+    obs_ex2 <- (observed - expected) ^ 2
 
     sum(obs_ex2 / expected) # Return the Lack of Fit score.
   }
