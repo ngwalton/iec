@@ -15,7 +15,7 @@
 #' \deqn{R^{2} = 1 - \frac{SS_{reg}}{SS_{tot}}}{R^2 = 1 - (SS_reg / SS_tot)}
 #' (see p. 34-35
 #' \href{http://www.mcb5068.wustl.edu/MCB/Lecturers/Baranski/Articles/RegressionBook.pdf}{here}).
-#' Note that this nonlinear R^2 is not really anything squared so it can result
+#' Note that this nonlinear R-squared is not anything squared so it can result
 #' a negative value. Negative values indicate poor model fit.
 #'
 #' @param observed a numeric vector of observations.

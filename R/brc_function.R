@@ -80,12 +80,12 @@ est_brc <- function(sp, ref_grad) {
 
   # Check that the input "sp" is a data frame.
   if (!is.data.frame(sp)) {
-    stop("The first input variable must be a data frame.")
+    stop("sp must be a data frame.")
   }
 
-  # Check that input "reg_grad" is a vector.
+  # Check that input "ref_grad" is a vector.
   if (!is.vector(ref_grad)) {
-    stop("The second argument must be a vector.")
+    stop("ref_grad must be a vector.")
   }
 
   # Check that "ref_grad" is scaled correctly.
