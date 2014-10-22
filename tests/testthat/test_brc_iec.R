@@ -19,8 +19,8 @@ br <- function() {
 
 brc <- br()
 
-iec <- function(brc){
-  score <- est_iec(fish_sp, brc, n_reps = 10)
+iec <- function(brc, method){
+  score <- est_iec(fish_sp, brc, method, n_reps = 10)
   score[, -1] <- round(score[, -1], digits = 4)
   score
 }
@@ -30,6 +30,10 @@ test_that("est_brc returns the same thing each time", {
   expect_equal_to_reference(brc, "./refs/brc_res.rds")
 })
 
-test_that("est_iec returns the same thing each time", {
-  expect_equal_to_reference(iec(brc), "./refs/iec_res.rds")
+test_that("est_iec 'pa' returns the same thing each time", {
+  expect_equal_to_reference(iec(brc, "pa"), "./refs/iec_pa_res.rds")
+})
+
+test_that("est_iec 'quant' returns the same thing each time", {
+  expect_equal_to_reference(iec(brc, "quant"), "./refs/iec_quant_res.rds")
 })
