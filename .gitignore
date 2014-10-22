@@ -2,5 +2,6 @@
 .Rhistory
 .RData
 
-man/
+man
 inst/doc
+tests/testthat/refs
