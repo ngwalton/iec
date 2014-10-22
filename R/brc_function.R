@@ -22,10 +22,8 @@
 #   desired.
 #   In general, these are the only variables you are likely to modify in this
 #   function.
-# * "Functions" contains two functions embedded in "est_brc".  Function
-#   "f" returns the lack-of-fit criterion which is minimized by "nlminb".
-#   Function "nl_r2" returns the none-linear R-square value used for evaluating
-#   the BRC after minimizing "f".
+# * "Functions" contains function "f" which returns the lack-of-fit criterion
+#   which is minimized by "nlminb".
 # * "for loop over each species" contains a for loop that
 #   processes each taxa in turn. "nlminb" tries to minimize the lack-of-fit
 #   score returned by function "f".
@@ -148,26 +146,6 @@ est_brc <- function(sp, ref_grad) {
     sum(obs_ex2 / expected) # Return the Lack of Fit score.
   }
 
-  nl_r2 <- function(observed, mu, sd, ht) {
-    # This function returns the nonlinear R^2 for the solutions found by
-    # nlminb(). The nonlinear R^2 is not really anything squared so it can
-    # result a negative value. Negative values indicate very poor model fit.
-    # Definition for nonlinear R^2 used:
-    # http://www.mcb5068.wustl.edu/MCB/Lecturers/Baranski/Articles/RegressionBook.pdf (p.34-35)
-
-    # Expected values for each site.
-    expected <- dnorm(ref_grad, mu, sd) * ht
-
-    # Sum of squared deviances from the nonlinear regression line.
-    ss_reg <- sum((observed - expected) ^ 2)
-
-    # Sum of squared deviances from the mean of the observed values.
-    ss_tot <- sum((observed - mean(observed)) ^ 2)
-
-    # Return the nonlinear R^2.
-    1 - (ss_reg / ss_tot)
-  }
-
   # Note that this function should be removed when we switch to making this a
   # package.
   get_sens <- function(obs_df, gradient, mid = 5) {
@@ -239,6 +217,12 @@ est_brc <- function(sp, ref_grad) {
     # generate random starting values
     br_start <- get_strat(mu_min, mu_max, sd_min, sd_max)
 
+    # function to add R^2
+    add_r2 <- function() {
+      expect <- dnorm(ref_grad, result$par[1], result$par[2]) * result$par[3]
+      iec::nlr2(observed, expect)
+    }
+
     for (i in 1:nrow(br_start)) {
 
       # Run "nlminb"
@@ -252,13 +236,13 @@ est_brc <- function(sp, ref_grad) {
       if (i == 1) {
         best <- result
 
-        # Add R^2.
-        best$R2 <- nl_r2(observed, result$par[1], result$par[2], result$par[3])
+        # Add nonlinear R^2.
+        best$R2 <- add_r2()
       } else if (result$objective < best$objective) {
         # If the new "result" is better than the current best, update
         # "best" to "result".
         best <- result
-        best$R2 <- nl_r2(observed, result$par[1], result$par[2], result$par[3])
+        best$R2 <- add_r2()
       }
     }
     # After fitting a best solution, add the solution to the data frame

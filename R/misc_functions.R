@@ -5,6 +5,38 @@
 # Last modified: 21 Oct 2014
 
 
+## Nonlinear R^2 ----
+
+#' Nonlinear R-squared
+#'
+#' \code{nlr2} calculates a nonlinear R-squared for the observed values.
+#'
+#' This function calculates the non-linear R-squared.  The equation used is:
+#' \deqn{R^{2} = 1 - \frac{SS_{reg}}{SS_{tot}}}{R^2 = 1 - (SS_reg / SS_tot)}
+#' (see p. 34-35
+#' \href{http://www.mcb5068.wustl.edu/MCB/Lecturers/Baranski/Articles/RegressionBook.pdf}{here}).
+#' Note that this nonlinear R^2 is not really anything squared so it can result
+#' a negative value. Negative values indicate poor model fit.
+#'
+#' @param observed a numeric vector of observations.
+#' @param expected a numeric vector of expected values.
+#' @return The nonlinear R-squared value (numeric scalar).
+nlr2 <- function(observed, expected) {
+  # This function returns the nonlinear R^2 for the solutions found by
+  # nlminb(). The nonlinear R^2 is not really anything squared so it can
+  # result a negative value. Negative values indicate very poor model fit.
+
+  # Sum of squared deviances from the nonlinear regression line.
+  ss_reg <- sum((observed - expected) ^ 2)
+
+  # Sum of squared deviances from the mean of the observed values.
+  ss_tot <- sum((observed - mean(observed)) ^ 2)
+
+  # Return the nonlinear R^2.
+  1 - (ss_reg / ss_tot)
+}
+
+
 ## sensitivity function ----
 
 #' Sensitivity of taxa to an environmental gradient.
