@@ -35,5 +35,5 @@ test_that("est_iec 'pa' returns the same thing each time", {
 })
 
 test_that("est_iec 'quant' returns the same thing each time", {
-  expect_equal_to_reference(iec(brc, "quant"), "./refs/iec_quant_res.rds")
+  expect_equal_to_reference(iec(brc, "q"), "./refs/iec_quant_res.rds")
 })
