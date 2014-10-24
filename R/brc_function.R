@@ -32,17 +32,17 @@
 # Created: Mar 2012
 # Last updated: 22 Oct 2014
 
-#' Make biotic response curves (BRC).
+#' Estimate Biotic Response Curves (BRC).
 #'
 #' \code{est_brc} generates biotic response curves (BRC) for each species or
 #' taxon in \code{sp} in relation to environmental reference gradient
 #' \code{ref_grad}.
 #'
-#' The biotic response curves (BRCs) or functions returned by \code{est_brc} are
+#' The Biotic Response Curves or functions returned by \code{est_brc} are
 #' normal curves fit to the observations in \code{sp} using a lack-of-fit (LOF)
 #' criteria. BRCs consist of a normal curve defined by mean (mu) and standard
 #' deviation (sigma), which is multiplied (scaled) a height factor (H).  The
-#' reference gradient (\code{ref_grad}) input to \code{est_brc} must be a be a
+#' reference gradient (\code{ref_grad}) input to \code{est_brc} must be a
 #' numeric vector scaled to 0-10 where 10 represents the least impacted site.
 #' Use \code{\link{scale10}} to scale the reference gradient if needed. Note
 #' that \code{ref_grad} must have the same order by site as \code{sp}. The
