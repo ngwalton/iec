@@ -159,10 +159,10 @@ plot_resp <- function (sp, iec, brc, method) {
 
   # Set method/criteria for estimating IEC
   # Return function for quant or pa based on "method"
-  # Method must be set to "quant" or "pa"
-  if (method == "quant") {
+  # Method must be set to "q" or "pa"
+  if (method == "q") {
     criteria <- function(pc, observed) {
-      # Least-squares method (AKA "quant").
+      # Least-squares method (AKA "q").
       # Note that currently the output from this will have the
       # Oposite sign of that from the Excel spread sheet.
       # This needs to be fixed, but will also require modifications to
