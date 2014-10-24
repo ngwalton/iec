@@ -5,7 +5,18 @@ Authors@R: as.person(c(
     "Nicholas G Walton <ngwalton@gmail.com> [aut, cre]",
     "Robert W Howe <hower@uwgb.edu> [aut]"
     ))
-Description: What the package does (one paragraph)
+Description: This package provides a suite of functions for calculating the
+    Index of Ecological Condition (IEC), a biotic indicator of ecological
+    health first described by Howe et al. (2007a,b) and modified by us for
+    Giese et al. (2014). Calculation of an IEC involves two steps 1) modeling
+    responses of species to a reference gradient or quantitative environmental
+    stressor (typically completed by prior research) and 2) calculating IEC
+    values for new sites based occurrences (e.g., presence/absence, abundance,
+    frequency) of multiple species or taxonomic groups at the site. The method
+    applies an iterative maximum likelihood approach for calculating both
+    species response functions and IEC values. Functions for calculating the
+    biotic responses to environmental stressors (BR models) are useful as
+    stand-alone applications of environmental gradient analysis.
 Depends:
     R (>= 3.1.1)
 License: MIT + file LICENSE
@@ -13,4 +24,3 @@ LazyData: true
 Suggests:
     knitr,
     testthat
-VignetteBuilder: knitr
