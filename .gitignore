@@ -2,6 +2,4 @@
 .Rhistory
 .RData
 
-man
 inst/doc
-tests/testthat/refs
