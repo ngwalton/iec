@@ -22,8 +22,8 @@ taxon in \code{sp} in relation to environmental reference gradient
 \code{ref_grad}.
 }
 \details{
-The Biotic Response Curves or functions returned by \code{est_brc} are
-normal curves fit to the observations in \code{sp} using a lack-of-fit (LOF)
+The Biotic Response Curves or functions returned by \code{est_brc} are normal
+curves fit to the observations in \code{sp} using a lack-of-fit (LOF)
 criteria. BRCs consist of a normal curve defined by mean (mu) and standard
 deviation (sigma), which is multiplied (scaled) a height factor (H).  The
 reference gradient (\code{ref_grad}) input to \code{est_brc} must be a
@@ -39,9 +39,9 @@ Gnass Giese, E.E., R.W. Howe, A.T. Wolf, N.A. Miller, and N.G.
   western Great Lakes forest landscapes. In review.
 
   Howe, R.W., R. R. Regal, J.M. Hanowski, G.J. Niemi, N.P. Danz, and C.R.
-  Smith.  2007a.  An index of biotic condition based on bird assemblages in
-  Great Lakes coastal wetlands.  Journal of Great Lakes Research 33 (Special
-  Issue 3): 93-105.
+  Smith.  2007a.  An index of ecological condition based on bird assemblages
+  in Great Lakes coastal wetlands.  Journal of Great Lakes Research 33
+  (Special Issue 3): 93-105.
 
   Howe, R.W., R. R. Regal, G.J. Niemi, N.P. Danz, J.M. Hanowski. 2007b.  A
   probability-based indicator of ecological condition. Ecological Indicators

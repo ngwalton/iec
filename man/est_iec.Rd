@@ -36,6 +36,20 @@ set to any positive integer, but the authors recommend against using values
 of less than 10 except for testing purposes.  Larger values will take longer
 to process.  The default value is 30.
 }
+\references{
+Gnass Giese, E.E., R.W. Howe, A.T. Wolf, N.A. Miller, and N.G.
+  Walton. 2014. Sensitivity of breeding birds to the "human footprint" in
+  western Great Lakes forest landscapes. In review.
+
+  Howe, R.W., R. R. Regal, J.M. Hanowski, G.J. Niemi, N.P. Danz, and C.R.
+  Smith.  2007a.  An index of ecological condition based on bird assemblages
+  in Great Lakes coastal wetlands.  Journal of Great Lakes Research 33
+  (Special Issue 3): 93-105.
+
+  Howe, R.W., R. R. Regal, G.J. Niemi, N.P. Danz, J.M. Hanowski. 2007b.  A
+  probability-based indicator of ecological condition. Ecological Indicators
+  7:793-806.
+}
 \seealso{
 \code{\link{est_brc}} to generate biotic response curves.
 }

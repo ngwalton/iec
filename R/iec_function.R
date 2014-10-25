@@ -76,9 +76,9 @@
 #'   western Great Lakes forest landscapes. In review.
 #'
 #'   Howe, R.W., R. R. Regal, J.M. Hanowski, G.J. Niemi, N.P. Danz, and C.R.
-#'   Smith.  2007a.  An index of biotic condition based on bird assemblages in
-#'   Great Lakes coastal wetlands.  Journal of Great Lakes Research 33 (Special
-#'   Issue 3): 93-105.
+#'   Smith.  2007a.  An index of ecological condition based on bird assemblages
+#'   in Great Lakes coastal wetlands.  Journal of Great Lakes Research 33
+#'   (Special Issue 3): 93-105.
 #'
 #'   Howe, R.W., R. R. Regal, G.J. Niemi, N.P. Danz, J.M. Hanowski. 2007b.  A
 #'   probability-based indicator of ecological condition. Ecological Indicators
