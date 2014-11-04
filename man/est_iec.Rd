@@ -13,8 +13,8 @@ as values).}
 
 \item{method}{one of \code{"pa"} (default; CalcPA) or \code{"q"} (CalcQ).}
 
-\item{n_reps}{numeric scalar setting the number of random starts used in
-optimization (default is 30).}
+\item{n_reps}{single integer value setting the number of random starts used
+in optimization (default is 30).}
 }
 \value{
 A data frame containing the IEC scores for each site in \code{sp} and
@@ -25,16 +25,19 @@ A data frame containing the IEC scores for each site in \code{sp} and
 site in \code{sp} based on the biotic response curves (BRC) in \code{brc}.
 }
 \details{
-An Index of Ecological Condition (IEC) score is estimated for each site in
-data frame \code{sp}. The default method treats observations as
-presence/absence (\code{method = "pa"}).  When quantitative observations are
-available, set \code{method} to \code{q}. \code{n_reps} determines the number
-of times the optimization function (\code{\link[stats]{nlminb}}) is run with
-different starting values. The column names in \code{sp} and column 1 of
-\code{brc} must contain the same taxa in the same order. \code{n_reps} can be
-set to any positive integer, but the authors recommend against using values
-of less than 10 except for testing purposes.  Larger values will take longer
-to process.  The default value is 30.
+An Index of Ecological Condition (IEC) score is estimated for each site (row)
+in data frame \code{sp}. This score is based on the Biotic Response functions
+(curves) in \code{brc} (output from \code{\link{est_brc}}). The column names
+in \code{sp} and column 1 of \code{brc} must contain the same taxa in the
+same order. The default method treats observations as presence/absence
+(\code{method = "pa"}).  Note that input records do not need to be coded as
+presence/absence as the method simply checks for 0 or > 0. When quantitative
+observations are available, set \code{method} to \code{q}. \code{n_reps}
+determines the number of times the optimization function
+(\code{\link[stats]{nlminb}}) is run with different starting values.
+\code{n_reps} can be set to any positive integer, but the authors recommend
+against using values of less than 10 except for testing purposes.  Larger
+values will take longer to process.  The default value is 30.
 }
 \references{
 Gnass Giese, E.E., R.W. Howe, A.T. Wolf, N.A. Miller, and N.G.
