@@ -7,8 +7,10 @@
 
 context("BRC and IEC")
 
-file <- system.file("R", "sysdata.rda", package = "iec")
-load(file)
+# file <- system.file("R", "sysdata.rda", package = "iec")
+# load(file)
+
+data(list = c("fish_grad","fish_sp"))
 
 br <- function() {
   grad10 <- scale10(fish_grad[, 1], TRUE)
