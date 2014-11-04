@@ -30,9 +30,6 @@ error is it does.  Otherwise, \code{brc_pdf} opens a PDF device to print to
 \code{\link[base]{tryCatch}} such that \code{\link[grDevices]{dev.off}} is
 safely called even if the printing fails.
 }
-\examples{
-brc_pdf("output.pdf", sp, brc, grad)
-}
 \seealso{
 \code{\link{est_brc}}, \code{\link{scale10}},
   \code{\link[grDevices]{Devices}}
