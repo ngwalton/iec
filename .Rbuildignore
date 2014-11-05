@@ -3,3 +3,4 @@
 ^.*\.git$
 ^.*\.git/.*$
 ^data-raw$
+^NEWS\.md$
