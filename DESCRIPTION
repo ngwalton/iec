@@ -1,6 +1,6 @@
 Package: iec
 Title: Index of Ecological Condition (IEC)
-Version: 0.1
+Version: 0.1.1
 Authors@R: as.person(c(
     "Nicholas G Walton <ngwalton@gmail.com> [aut, cre]",
     "Robert W Howe <hower@uwgb.edu> [aut]"
