@@ -101,7 +101,8 @@ est_brc <- function(sp, ref_grad) {
   }
 
   # Check that "ref_grad" is scaled correctly.
-  if (min(ref_grad) != 0 | max(ref_grad) != 10) {
+  # Checks that all "ref_grad" values are within [0, 10]
+  if (min(ref_grad) < 0 | max(ref_grad) > 10) {
     stop("ref_grad is not scaled from 0 to 10.")
   }
 
