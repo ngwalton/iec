@@ -98,12 +98,10 @@ plot_brc <- function(sp, brc, ref_grad, min = "", max = "", RVar = "Response",
       legend(placement,
              legend = c(paste("LOF:", signif(LOF, 3)),
                         paste("RMSE:", signif(model_rmse, 3)),
-                        as.expression(bquote(nR^2: ~ .(signif(R2, 2)))),
                         as.expression(bquote(mu: ~ .(signif(Mean, 3)))),
                         as.expression(bquote(sigma: ~ .(signif(SD, 3)))),
                         paste("H:", signif(H, 3)),
-                        paste("r:", signif(r, 2)),
-                        paste("Sens:", signif(Sens, 3))),
+                        paste("r:", signif(r, 2))),
              bty = "n", cex = 0.6)
     })
   }
