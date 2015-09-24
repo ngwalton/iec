@@ -2,7 +2,7 @@
 
 # Authors: Nicholas G. Walton and Robert W. Howe
 # created: 13 Oct 2014
-# Last modified: 16 Sept 2015
+# Last modified: 23 Sept 2015
 
 
 
@@ -77,9 +77,11 @@ plot_brc <- function(sp, brc, ref_grad, min = "", max = "", RVar = "Response",
       # x axis label for plot.
       x_lab <- expression(Environmental ~ Condition ~ (italic(C[env])))
       # x_lab <- "Environmental (Reference) Condition" # Bob's x_lab
-      # y_max <- max(sp[, species])  # not sure what this is for?
+      y_max <- max(sp[, species]) + 0.1   # needed so we can set ylim min to 0
+      if (y_max < 1) y_max <- 1           # so that flat BRCs are flat
       plot(sp[, species] ~ ref_grad, main = names(sp)[species], sub = Xscale,
-           cex.sub = 0.8, xlab = x_lab, ylab = RVar, xlim = c(0, 10))
+           cex.sub = 0.8, xlab = x_lab, ylab = RVar,
+           xlim = c(0, 10), ylim = c(0, y_max))
       curve(dnorm(x, Mean, SD) * H, add = TRUE)
 
       # correlation between species and reference grad
