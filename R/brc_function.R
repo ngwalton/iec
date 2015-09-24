@@ -30,7 +30,7 @@
 #
 # Authors: Nicholas G. Walton and Robert W. Howe
 # Created: Mar 2012
-# Last updated: 22 Oct 2014
+# Last updated: 23 Sept 2015
 
 #' Estimate Biotic Response Curves (BRC).
 #'
