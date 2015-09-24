@@ -5,7 +5,7 @@
 \title{Save BRC plots to PDF file.}
 \usage{
 brc_pdf(out_pdf, sp, brc, ref_grad, min_lof = 1, min = "", max = "",
-  RVar = "Response", Xscale = "Gradient", sub_title = "")
+  y_lab = "Response", Xscale = "Gradient", sub_title = "")
 }
 \arguments{
 \item{out_pdf}{name of output PDF file.}

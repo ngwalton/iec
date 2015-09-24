@@ -4,7 +4,7 @@
 \alias{plot_brc}
 \title{Plot BRC}
 \usage{
-plot_brc(sp, brc, ref_grad, min = "", max = "", RVar = "Response",
+plot_brc(sp, brc, ref_grad, min = "", max = "", y_lab = "Response",
   Xscale = "Gradient", sub_title = "")
 }
 \arguments{

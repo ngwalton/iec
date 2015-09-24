@@ -59,14 +59,14 @@ plot_lof <- function(brc, min_lof = 1) {
 #' @inheritParams est_brc
 #' @seealso \code{\link{est_brc}}, \code{\link{scale10}},
 #'   \code{\link[grDevices]{Devices}}
-plot_brc <- function(sp, brc, ref_grad, min = "", max = "", RVar = "Response",
+plot_brc <- function(sp, brc, ref_grad, min = "", max = "", y_lab = "Response",
                      Xscale = "Gradient", sub_title = "") {
   # Generate scatter plot and predicted normal curve for each species.
   # One page per species.
   for (species in 1:ncol(sp)) {
     with(brc[species, ], {
       # "with" makes the following variables from data frame "brc" available:
-      # Mean, SD, H, LOF, R2, Sens, n
+      # Taxon, LOF, Mean, SD, H, LOF, R2, Sens, n
 
       # Choose location of figure text (top right or top left side
       # of figure).
@@ -80,7 +80,7 @@ plot_brc <- function(sp, brc, ref_grad, min = "", max = "", RVar = "Response",
       y_max <- max(sp[, species]) + 0.1   # needed so we can set ylim min to 0
       if (y_max < 1) y_max <- 1           # so that flat BRCs are flat
       plot(sp[, species] ~ ref_grad, main = names(sp)[species], sub = Xscale,
-           cex.sub = 0.8, xlab = x_lab, ylab = RVar,
+           cex.sub = 0.8, xlab = x_lab, ylab = y_lab,
            xlim = c(0, 10), ylim = c(0, y_max))
       curve(dnorm(x, Mean, SD) * H, add = TRUE)
 
@@ -100,10 +100,10 @@ plot_brc <- function(sp, brc, ref_grad, min = "", max = "", RVar = "Response",
       legend(placement,
              legend = c(paste("LOF:", signif(LOF, 3)),
                         paste("RMSE:", signif(model_rmse, 3)),
+                        paste("r:", signif(r, 2)),
                         as.expression(bquote(mu: ~ .(signif(Mean, 3)))),
                         as.expression(bquote(sigma: ~ .(signif(SD, 3)))),
-                        paste("H:", signif(H, 3)),
-                        paste("r:", signif(r, 2))),
+                        paste("H:", signif(H, 3))),
              bty = "n", cex = 0.6)
     })
   }
@@ -130,7 +130,7 @@ plot_brc <- function(sp, brc, ref_grad, min = "", max = "", RVar = "Response",
 #' @seealso \code{\link{est_brc}}, \code{\link{scale10}},
 #'   \code{\link[grDevices]{Devices}}
 brc_pdf <- function(out_pdf, sp, brc, ref_grad, min_lof = 1, min = "", max = "",
-                    RVar = "Response", Xscale = "Gradient", sub_title = "") {
+                    y_lab = "Response", Xscale = "Gradient", sub_title = "") {
   # check/fix extension
   if (!grepl("\\.pdf$", out_pdf, ignore.case = TRUE)) {
     out_pdf <- paste(out_pdf, ".pdf", sep = "")
@@ -150,7 +150,7 @@ brc_pdf <- function(out_pdf, sp, brc, ref_grad, min_lof = 1, min = "", max = "",
 
     tryCatch({
       plot_lof(brc, min_lof)
-      plot_brc(sp, brc, ref_grad, min, max, RVar, Xscale, sub_title)
+      plot_brc(sp, brc, ref_grad, min, max, y_lab, Xscale, sub_title)
 
       # Print message confirming that figures were written.
       message(paste("Figures written to file \"", out_pdf, "\"", sep = ""))
