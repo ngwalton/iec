@@ -100,6 +100,15 @@ est_brc <- function(sp, ref_grad) {
     stop("ref_grad must be a vector.")
   }
 
+  # Check for NA values.
+  if (any(is.na(sp))) {
+    stop("sp contains NA values.")
+  }
+
+  if (any(is.na(ref_grad))) {
+    stop("ref_grad contains NA values.")
+  }
+
   # Check that "ref_grad" is scaled correctly.
   # Checks that all "ref_grad" values are within [0, 10]
   if (min(ref_grad) < 0 | max(ref_grad) > 10) {
