@@ -46,7 +46,7 @@
 # Authors: Nicholas G. Walton and Robert W. Howe
 #
 # Created: Mar 2013(?)
-# Last modified: 17 Oct 2014
+# Last modified: 25 Sept 2015
 
 #' Estimate IEC site scores.
 #'

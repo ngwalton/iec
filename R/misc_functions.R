@@ -2,7 +2,7 @@
 #
 # Authors: Nicholas G. Walton and Robert W. Howe
 # Created 14 Oct 2014
-# Last modified: 23 Sept 2015
+# Last modified: 25 Sept 2015
 
 
 ## Nonlinear R^2 ----
