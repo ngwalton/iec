@@ -13,7 +13,7 @@
 #' values indicate less desirable sites, so the scale will need to be inverted
 #' for use with \code{\link{est_brc}}.
 #'
-#' @format \code{fish_grad} is a single column data frame containing
+#' @format \code{fish_grad} is a numeric vector containing
 #'   environmental gradient scores from 25 sites (rows).  Site corresponds to
 #'   sites (rows) in \code{\link{fish_sp}}.
 #' @examples

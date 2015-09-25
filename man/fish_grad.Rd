@@ -4,7 +4,7 @@
 \name{fish_grad}
 \alias{fish_grad}
 \title{Environmental gradient for fish sites}
-\format{\code{fish_grad} is a single column data frame containing
+\format{\code{fish_grad} is a numeric vector containing
   environmental gradient scores from 25 sites (rows).  Site corresponds to
   sites (rows) in \code{\link{fish_sp}}.}
 \usage{

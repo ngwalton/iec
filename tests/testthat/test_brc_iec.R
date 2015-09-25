@@ -2,7 +2,7 @@
 
 # Author: Nicholas G. Walton
 # Created: 22 Oct 2014
-# Last updated: 22 Oct 2014
+# Last updated: 25 Sept 2015
 
 
 context("BRC and IEC")
@@ -13,7 +13,7 @@ context("BRC and IEC")
 data(list = c("fish_grad","fish_sp"))
 
 br <- function() {
-  grad10 <- scale10(fish_grad[, 1], TRUE)
+  grad10 <- scale10(fish_grad, TRUE)
   brc <- iec::est_brc(fish_sp, grad10)
   brc[, -c(1, length(brc))] <- round(brc[, -c(1, length(brc))], digits = 4)
   brc
