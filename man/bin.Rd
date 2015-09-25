@@ -38,4 +38,12 @@ species observations for taxa used to create Biotic Response functions
 function \code{bin} takes a data frame that contains the environmental
 gradient as the first column.
 }
+\examples{
+x <- data.frame(gradient = round(abs(rnorm(107)), 2),
+                sp1 = rpois(107, 0.7),
+                sp2 = rpois(107, 0.5))
+
+bin(x, n = 7, summary = TRUE)
+x_bin <- bin(x, n = 7)
+}
 

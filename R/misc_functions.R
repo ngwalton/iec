@@ -124,7 +124,7 @@ scale10 <- function(env_grad, invert = FALSE) {
 #' gradient as the first column.
 #'
 #' @param sp data frame containing species observations as columns with an
-#'  environmental gradient as the first column (needs work).
+#'   environmental gradient as the first column (needs work).
 #' @param n scalar value indicating the number of bins or number of
 #'   records per bin (see \code{n_bins}).
 #' @param n_bins logical indicating if \code{n} is the number of bins
@@ -136,6 +136,13 @@ scale10 <- function(env_grad, invert = FALSE) {
 #'   these are means. If presence/absence data are used (codes as 0/1), the
 #'   mean is also a probability. If \code{summary = TRUE}, \code{bin} returns
 #'   a table of the number of records per bin.
+#' @examples
+#' x <- data.frame(gradient = round(abs(rnorm(107)), 2),
+#'                 sp1 = rpois(107, 0.7),
+#'                 sp2 = rpois(107, 0.5))
+#'
+#' bin(x, n = 7, summary = TRUE)
+#' x_bin <- bin(x, n = 7)
 bin <- function(sp, n, n_bins = TRUE, summary = FALSE) {
   # assumes the first column in sp contains the environmental gradient
   # note that the returned species values will be probabilities if the input
@@ -157,7 +164,8 @@ bin <- function(sp, n, n_bins = TRUE, summary = FALSE) {
     # just return the number of records per bin
     table(bin_levels)
   } else {
-    data.frame(t(sapply(unique(bin_levels),
-                        function(x) colMeans(sp[bin_levels == x, ]))))
+    out <- t(sapply(unique(bin_levels),
+                    function(x) colMeans(sp[bin_levels == x, ])))
+    data.frame(out)  # t returns a matrix
   }
 }
