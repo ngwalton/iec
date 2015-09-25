@@ -162,10 +162,9 @@ bin <- function(sp, n, n_bins = TRUE, summary = FALSE) {
 
   if (summary) {
     # just return the number of records per bin
-    table(bin_levels)
+    return(table(bin_levels))
   } else {
-    out <- t(sapply(unique(bin_levels),
-                    function(x) colMeans(sp[bin_levels == x, ])))
-    data.frame(out)  # t returns a matrix
+    # "[, -1]" because column 1 contains bin levels
+    aggregate(sp, list(bin_levels), mean)[, -1]
   }
 }
