@@ -4,8 +4,8 @@
 \alias{brc_pdf}
 \title{Save BRC plots to PDF file.}
 \usage{
-brc_pdf(out_pdf, sp, brc, ref_grad, min_lof = 1, min = "", max = "",
-  y_lab = "Response", Xscale = "Gradient", sub_title = "")
+brc_pdf(out_pdf, sp, brc, ref_grad, min_lof = 1, ref_bad = NULL,
+  ref_good = NULL, ylab = "Response", sub_xlab = NULL, sub_main = NULL)
 }
 \arguments{
 \item{out_pdf}{name of output PDF file.}
@@ -19,6 +19,20 @@ as values).}
 each site.}
 
 \item{min_lof}{numeric value indicating minimum LOF to label.}
+
+\item{ref_bad}{numeric scalar worst condition of original environmental
+gradient (optional).}
+
+\item{ref_good}{numeric scalar best condition of original environmental
+gradient (optional).}
+
+\item{ylab}{a title for the y axis (optional; defaults to "Response").}
+
+\item{sub_xlab}{name of environmental gradient (optional);
+sub title to x-axis.}
+
+\item{sub_main}{a sub title for the plots (optional); printed below main
+title (taxon name).}
 }
 \description{
 \code{brc_pdf} saves the output from \code{\link{plot_lof}} and

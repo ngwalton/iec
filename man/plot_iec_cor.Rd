@@ -4,8 +4,8 @@
 \alias{plot_iec_cor}
 \title{Plot estimated IEC vs. environmental gradient}
 \usage{
-plot_iec_cor(iec, env_grad, title, Xscale = "Original Gradient",
-  Response_Var = "raw values")
+plot_iec_cor(iec, env_grad, main = NULL, xlab = "Original Gradient",
+  time = TRUE)
 }
 \arguments{
 \item{iec}{the output data frame from \code{\link{est_iec}}.}
@@ -13,7 +13,13 @@ plot_iec_cor(iec, env_grad, title, Xscale = "Original Gradient",
 \item{env_grad}{numeric vector of environmental gradient scores, one for each
 site.}
 
-\item{title}{the name taxonomic group being plotted (e.g., "fish").}
+\item{main}{an overall title for the plot (e.g., "Fish 2015 (total ag)").}
+
+\item{xlab}{name of original gradient for the x axis (default is "Original
+Gradient")}
+
+\item{time}{logical indicating if time of plotting should be printed below
+the main title.}
 }
 \description{
 \code{plot_iec_cor} plots the IEC scores estimated by \code{\link{est_iec}}
@@ -25,7 +31,7 @@ specific Biotic Response Curves (\code{\link{est_brc}}).
 }
 \examples{
 data(list = c("fish_sp", "fish_grad"))
-grad <- scale10(fish_grad[, 1], TRUE)
+grad <- scale10(fish_grad, TRUE)
 brc <- est_brc(fish_sp, grad)
 iec <- est_iec(fish_sp, brc, n_reps = 10)
 plot_iec_cor(iec, fish_grad, "fish")
