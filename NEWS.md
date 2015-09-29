@@ -6,6 +6,12 @@
 
 * Added new function `bin` for binning of `ref_grad` (can specify number of bins or number of approx. number of records per bin)
 
+* Relaxed error checking in `est_brc` to allow for `ref_grad` min > 0 and max < 10 to allow for binning
+
+* `est_brc` now fails when NAs are detected in input data
+
+* Added option to `est_iec` to score sites based on only observed species at that specific site
+
 * Added arguments to `plot_brc` and `brc_pdf` to allow for sub titles to main and x-axis labels
 
 * Added the following to output from `plot_brc`
@@ -16,12 +22,6 @@
 * Removed non-linear R^2^ and Sensitivity from output of `plot_brc`
 
 * Fixed `plot_iec_cor` to work with vector `env_grad` (was n x 1 data frame)
-
-* Relaxed error checking in `est_brc` to allow for `ref_grad` min > 0 and max < 10 to allow for binning
-
-* `est_brc` now fails when NAs are detected in input data
-
-* Added option to `est_iec` to score sites based on only observed species at that specific site
 
 * Changed reference data `fish_grad` from single column data frame to vector
 
