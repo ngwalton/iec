@@ -8,7 +8,7 @@ Authors@R: as.person(c(
 Description: This package provides a suite of functions for calculating the
     Index of Ecological Condition (IEC), a biotic indicator of ecological
     health first described by Howe et al. (2007a,b) and modified by us for
-    Giese et al. (2014). Calculation of an IEC involves two steps 1) modeling
+    Giese et al. (2015). Calculation of an IEC involves two steps 1) modeling
     responses of species to a reference gradient or quantitative environmental
     stressor (typically completed by prior research) and 2) calculating IEC
     values for new sites based occurrences (e.g., presence/absence, abundance,
