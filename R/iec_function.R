@@ -81,8 +81,9 @@
 #' @return A data frame containing the IEC scores for each site in \code{sp} and
 #'   the corresponding likelihood of the score.
 #' @references Gnass Giese, E.E., R.W. Howe, A.T. Wolf, N.A. Miller, and N.G.
-#'   Walton. 2014. Sensitivity of breeding birds to the "human footprint" in
-#'   western Great Lakes forest landscapes. In review.
+#'   Walton. 2015. Sensitivity of breeding birds to the "human footprint" in
+#'   western Great Lakes forest landscapes. Ecosphere 6(6):90.
+#'   http://dx.doi.org/10.1890/ES14-00414.1
 #'
 #'   Howe, R.W., R. R. Regal, J.M. Hanowski, G.J. Niemi, N.P. Danz, and C.R.
 #'   Smith.  2007a.  An index of ecological condition based on bird assemblages

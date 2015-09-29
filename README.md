@@ -1,6 +1,6 @@
 # iec
 
-This package provides a suite of functions for calculating the Index of Ecological Condition (IEC), a biotic indicator of ecological health first described by Howe et al. (2007a,b) and modified by us for Giese et al. (2014). Calculation of an IEC involves two steps 1) modeling responses of species to a reference gradient or quantitative environmental stressor (typically completed by prior research) and 2) calculating IEC values for new sites based occurrences (e.g., presence/absence, abundance, frequency) of multiple species or taxonomic groups at the site. The method applies an iterative maximum likelihood approach for calculating both species response functions and IEC values. Functions for calculating the biotic responses to environmental stressors (BR models) are useful as stand-alone applications of environmental gradient analysis.
+This package provides a suite of functions for calculating the Index of Ecological Condition (IEC), a biotic indicator of ecological health first described by Howe et al. (2007a,b) and modified by us for Giese et al. (2015). Calculation of an IEC involves two steps 1) modeling responses of species to a reference gradient or quantitative environmental stressor (typically completed by prior research) and 2) calculating IEC values for new sites based occurrences (e.g., presence/absence, abundance, frequency) of multiple species or taxonomic groups at the site. The method applies an iterative maximum likelihood approach for calculating both species response functions and IEC values. Functions for calculating the biotic responses to environmental stressors (BR models) are useful as stand-alone applications of environmental gradient analysis.
 
 
 ## Installation
@@ -34,7 +34,8 @@ vignette("extended_iec", package = "iec")
 ```
 
 ## References
-Gnass Giese, E.E., R.W. Howe, A.T. Wolf, N.A. Miller, and N.G. Walton. 2014. Sensitivity of breeding birds to the "human footprint" in western Great Lakes forest landscapes. In review.
+Gnass Giese, E.E., R.W. Howe, A.T. Wolf, N.A. Miller, and N.G. Walton. 2015. Sensitivity of breeding birds to the "human footprint" in western Great Lakes forest landscapes. Ecosphere 6(6):90. http://dx.doi.org/10.1890/ES14-00414.1
+
  
 Howe, R.W., R. R. Regal, J.M. Hanowski, G.J. Niemi, N.P. Danz, and C.R. Smith.  2007a.  An index of ecological condition based on bird assemblages in Great Lakes coastal wetlands.  Journal of Great Lakes Research 33 (Special Issue 3): 93-105. 
  
