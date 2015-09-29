@@ -14,10 +14,7 @@
 
 * Added arguments to `plot_brc` and `brc_pdf` to allow for sub titles to main and x-axis labels
 
-* Added the following to output from `plot_brc`
-** Mean square error (RMSE)
-** Pearson correlation between reference gradient and species response
-** Max `ylim` is now plotted at no less than 1
+* Added the following to output from `plot_brc`: Mean square error (RMSE); Pearson correlation between reference gradient and species response; Max `ylim` is plotted at no less than 1
 
 * Removed non-linear R^2^ and Sensitivity from output of `plot_brc`
 
