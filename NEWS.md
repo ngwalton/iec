@@ -1,5 +1,7 @@
 # iec v0.1.1
 
+### delete this line
+
 * Package `iec` now passes `R CMD check`.
 
 * Updated Gnass Giese, et. al. (2015) Ecosphere reference
