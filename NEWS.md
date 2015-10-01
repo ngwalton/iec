@@ -1,3 +1,9 @@
+# iec v0.1.2
+
+### Bug fixes
+
+* `est_iec` now returns NA for sites where no taxa were observed
+
 # iec v0.1.1
 
 * Package `iec` now passes `R CMD check`.

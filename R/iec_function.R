@@ -243,6 +243,14 @@ est_iec <- function(sp, brc, method = "pa", n_reps = 30, keep_zeros = TRUE) {
       # "keep" contains the indices for detected species.
       keep <- which(sp[site, ] > 0)
 
+      # If there are no species detected, set iec attributes to NA and
+      # go to the next site
+      if (length(keep) == 0) {
+        iec_scores[site, ] <- list(row.names(sp)[site],
+                                   as.numeric(NA), as.numeric(NA))
+        next
+      }
+
       # subset "observed" and "brc" to the detected species
       observed <- sp[site, keep]
       brc <- brc_raw[keep, ]
