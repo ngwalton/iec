@@ -160,8 +160,7 @@ est_iec <- function(sp, brc, method = "pa", n_reps = 30, keep_zeros = TRUE) {
     pick <- n %/% length(llimit)
 
     # Select stratified random values.
-    strat <- unlist(lapply(llimit,
-                           function(x) runif(pick, min = x, max = x + 1)))
+    strat <- sapply(llimit, function(x) runif(pick, min = x, max = x + 1))
 
     # If n has been set to a value that is not a multiple of 10,
     # the remainder will be filled using random values in [0, 10].
