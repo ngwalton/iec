@@ -2,7 +2,9 @@
 
 ### Bug fixes
 
-* `est_iec` now returns NA for sites where no taxa were observed
+* `est_iec` now returns NA for sites where no taxa were observed when `keep_zeros = FALSE`
+
+* When `method = "pa"`, `est_iec` now caps `pc` (expected response value) at 1
 
 # iec v0.1.1
 

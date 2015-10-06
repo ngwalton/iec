@@ -33,19 +33,33 @@ An Index of Ecological Condition (IEC) score is estimated for each site (row)
 in data frame \code{sp}. This score is based on the Biotic Response functions
 (curves) in \code{brc} (output from \code{\link{est_brc}}). The column names
 in \code{sp} and column 1 of \code{brc} must contain the same taxa in the
-same order. The default method treats observations as presence/absence
+same order.
+
+The default method treats observations as presence/absence
 (\code{method = "pa"}).  Note that input records do not need to be coded as
-presence/absence as the method simply checks for 0 or > 0. When quantitative
-observations are available, set \code{method} to \code{q}. \code{n_reps}
-determines the number of times the optimization function
-(\code{\link[stats]{nlminb}}) is run with different starting values.
-\code{n_reps} can be set to any positive integer, but the authors recommend
-against using values of less than 10 except for testing purposes.  Larger
-values will take longer to process.  The default value is 30.  If
-\code{keep_zeros = TRUE} (defualt), all taxa in \code{brc} are used for
-scoring the sites. But if \code{keep_zeros = FALSE}, only those taxa detected
-at a given site are used to score that site.  With the latter option, the
-number of taxa used to score each site may vary.
+presence/absence as the method simply checks for 0 or > 0. When using
+\code{pa}, it is essential to use BR functions based on probability or
+probability-like (e.g., scaled to 0-1) observation data (see
+\code{\link{est_brc}}).
+
+When quantitative observations are available, set \code{method} to \code{"q"}.
+As with \code{q} it is important to match the type of data used to score the
+sites with the type of data used to estimate the BR functions. For example,
+if the data used to construct the BR functions in \code{est_brc} were
+probabilities, then the data used to score the sites (\code{sp}) should also
+be probabilities But if BR functions were constructed using log transformed
+(e.g. \code{\link[base]{log1p}}) count data, then the observations used to
+score the sites in \code{est_iec} should transformed in the same way.
+
+\code{n_reps} determines the number of times the
+optimization function (\code{\link[stats]{nlminb}}) is run with different
+starting values. \code{n_reps} can be set to any positive integer, but the
+authors recommend against using values of less than 10 except for testing
+purposes.  Larger values will take longer to process.  The default value is
+30.  If \code{keep_zeros = TRUE} (default), all taxa in \code{brc} are used
+for scoring the sites. But if \code{keep_zeros = FALSE}, only those taxa
+detected at a given site are used to score that site.  With the latter
+option, the number of taxa used to score each site may vary.
 }
 \references{
 Gnass Giese, E.E., R.W. Howe, A.T. Wolf, N.A. Miller, and N.G.
