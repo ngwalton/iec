@@ -35,21 +35,21 @@ in data frame \code{sp}. This score is based on the Biotic Response functions
 in \code{sp} and column 1 of \code{brc} must contain the same taxa in the
 same order.
 
-The default method treats observations as presence/absence
-(\code{method = "pa"}).  Note that input records do not need to be coded as
-presence/absence as the method simply checks for 0 or > 0. When using
-\code{pa}, it is essential to use BR functions based on probability or
-probability-like (e.g., scaled to 0-1) observation data (see
-\code{\link{est_brc}}).
+The default method treats observations as presence/absence (\code{method =
+"pa"}). When using \code{pa}, it is essential to use BR functions based on
+probability or probability-like (e.g., scaled to 0-1) observation data
+(\code{\link{est_brc}}). Note that input records do not need to be coded as
+presence/absence as the method simply checks for 0 or > 0.
 
-When quantitative observations are available, set \code{method} to \code{"q"}.
-As with \code{q} it is important to match the type of data used to score the
-sites with the type of data used to estimate the BR functions. For example,
-if the data used to construct the BR functions in \code{est_brc} were
-probabilities, then the data used to score the sites (\code{sp}) should also
-be probabilities But if BR functions were constructed using log transformed
-(e.g. \code{\link[base]{log1p}}) count data, then the observations used to
-score the sites in \code{est_iec} should transformed in the same way.
+When quantitative observations are available and were used to generate BR
+functions, set \code{method} to \code{"q"}. As with \code{"pa"} it is important
+to match the type of data used to score the sites with the type of data used
+to estimate the BR functions. For example, if the data used to construct the
+BR functions in \code{est_brc} were probabilities, then the data used to
+score the sites (\code{sp}) should also be probabilities If BR functions were
+constructed using log transformed (e.g. \code{\link[base]{log1p}}) count
+data, then the observations used to score the sites in \code{est_iec} should
+be transformed in the same way.
 
 \code{n_reps} determines the number of times the
 optimization function (\code{\link[stats]{nlminb}}) is run with different
