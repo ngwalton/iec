@@ -166,23 +166,29 @@ est_iec <- function(sp, brc, method = "pa", n_reps = 30, keep_zeros = TRUE) {
     # Note that it's ok to set "n_reps" as low as 10,
     # and it can be set even lower if you're just running tests.
 
-    # Lower limit for each stratum (upper will be llimit + 1).
-    llimit <- 0:9
+    if (n < 10) {
+      int <- 10/n
+      llimit <- sapply(0:(n - 1), function(x) x * int)
+      strat <- sapply(llimit, function(x) runif(1, min = x, max = x + int))
+    } else {
+      # Lower limit for each stratum (upper will be llimit + 1).
+      llimit <- 0:9
 
-    # This is the number of random values that will be selected from
-    # each stratum.
-    pick <- n %/% length(llimit)
+      # This is the number of random values that will be selected from
+      # each stratum.
+      pick <- n %/% length(llimit)
 
-    # Select stratified random values.
-    strat <- sapply(llimit, function(x) runif(pick, min = x, max = x + 1))
+      # Select stratified random values.
+      strat <- sapply(llimit, function(x) runif(pick, min = x, max = x + 1))
 
-    # If n has been set to a value that is not a multiple of 10,
-    # the remainder will be filled using random values in [0, 10].
-    # Note that only this part will be used to assign starting IEC values
-    # if n is set to less then length(llimit) (AKA 10).
-    if (length(strat) < n) {
-      remain <- n - length(strat)
-      strat[(length(strat) + 1):n] <- runif(remain, min = 0, max = 10)
+      # If n has been set to a value that is not a multiple of 10,
+      # the remainder will be filled using random values in [0, 10].
+      # Note that only this part will be used to assign starting IEC values
+      # if n is set to less then length(llimit) (AKA 10).
+      if (length(strat) < n) {
+        remain <- n - length(strat)
+        strat[(length(strat) + 1):n] <- runif(remain, min = 0, max = 10)
+      }
     }
     strat   # Return the vector of starting values for "nlminb".
   }
