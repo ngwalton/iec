@@ -264,8 +264,7 @@ est_iec <- function(sp, brc, method = "pa", n_reps = 30, keep_zeros = TRUE) {
       # If there are no species detected, set iec attributes to NA and
       # go to the next site
       if (length(keep) == 0) {
-        iec_scores[site, ] <- list(row.names(sp)[site],
-                                   as.numeric(NA), as.numeric(NA))
+        iec_scores[site, ] <- list(row.names(sp)[site], NA_real_, NA_real_)
         next
       }
 
