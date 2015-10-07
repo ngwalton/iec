@@ -141,7 +141,7 @@ est_brc <- function(sp, ref_grad) {
   # Add column names.
   # Consider changing to: c("taxon", "lof", "r2", "mu", "sigma", "ht")
   names(brc_pars) <-
-    c("Taxon", "LOF", "R2", "Mean", "SD", "H", "Direction", "Magnitude")
+    c("Taxon", "LOF", "R2", "Mean", "SD", "H", "direction", "range")
 
   # Expand rows in brc_pars to same length as ncol in sp
   brc_pars[ncol(sp), ]  <- NA
@@ -254,7 +254,7 @@ est_brc <- function(sp, ref_grad) {
       }
     }
 
-    # Add direction and magnitude
+    # Add direction and range
     x <- seq(0, 10, by=0.1)
 
     preds <- dnorm(x, best$par[1], best$par[2]) * best$par[3]
