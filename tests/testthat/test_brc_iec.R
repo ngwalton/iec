@@ -15,7 +15,9 @@ data(list = c("fish_grad","fish_sp"))
 br <- function() {
   grad10 <- scale10(fish_grad, TRUE)
   brc <- iec::est_brc(fish_sp, grad10)
-  brc[, -c(1, length(brc))] <- round(brc[, -c(1, length(brc))], digits = 4)
+  # need to update in light of adding Direction and Magnitude to est_brc output
+  brc[, -c(1, 7, length(brc))] <- round(brc[, -c(1, 7, length(brc))], digits = 4)
+  brc <- brc[, -c(7, 8)]  # temporarily ignore Direction and Magnitude
   brc
 }
 

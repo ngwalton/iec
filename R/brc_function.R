@@ -136,10 +136,12 @@ est_brc <- function(sp, ref_grad) {
   # Generate a data frame to hold the output parameters of BR function.
   # This is an empty data frame with 6 columns - data types defined.
   brc_pars <- data.frame(character(0), rep(list(numeric(0)), 5),
+                         character(0), numeric(0),
                          stringsAsFactors = FALSE)
   # Add column names.
   # Consider changing to: c("taxon", "lof", "r2", "mu", "sigma", "ht")
-  names(brc_pars) <- c("Taxon", "LOF", "R2", "Mean", "SD", "H")
+  names(brc_pars) <-
+    c("Taxon", "LOF", "R2", "Mean", "SD", "H", "Direction", "Magnitude")
 
   # Expand rows in brc_pars to same length as ncol in sp
   brc_pars[ncol(sp), ]  <- NA
@@ -251,12 +253,38 @@ est_brc <- function(sp, ref_grad) {
         best$R2 <- add_r2()
       }
     }
+
+    # Add direction and magnitude
+    x <- seq(0, 10, by=0.1)
+
+    preds <- dnorm(x, best$par[1], best$par[2]) * best$par[3]
+
+    # note that this will need changing if x is modified
+    # also note that, as x is currently defined, 81 = 8, and 21 = 2
+    # e.g., to set the boundaries to 9 and 1, use 91 and 11
+    if(which.max(preds) > 81) {
+      resp <- "positive"
+
+    } else if(which.max(preds) < 21) {
+      resp <- "negative"
+
+    } else {
+      resp <- "intermediate"
+    }
+
+    best$brc_dir <- resp  # response direction
+    best$brc_mag <- max(preds) - min(preds)
+
     # After fitting a best solution, add the solution to the data frame
     # "brc_pars".
     brc_pars[species, ] <- list(names(sp)[species],
-                                      best$objective, best$R2,
-                                      best$par[1], best$par[2],
-                                      best$par[3])
+                                best$objective,
+                                best$R2,
+                                best$par[1],
+                                best$par[2],
+                                best$par[3],
+                                best$brc_dir,
+                                best$brc_mag)
   }
 
 
