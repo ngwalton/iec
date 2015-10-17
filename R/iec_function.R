@@ -66,14 +66,14 @@
 #' presence/absence as the method simply checks for 0 or > 0.
 #'
 #' When quantitative observations are available and were used to generate BR
-#' functions, set \code{method} to \code{"q"}. As with \code{"pa"} it is important
-#' to match the type of data used to score the sites with the type of data used
-#' to estimate the BR functions. For example, if the data used to construct the
-#' BR functions in \code{est_brc} were probabilities, then the data used to
-#' score the sites (\code{sp}) should also be probabilities If BR functions were
-#' constructed using log transformed (e.g. \code{\link[base]{log1p}}) count
-#' data, then the observations used to score the sites in \code{est_iec} should
-#' be transformed in the same way.
+#' functions, set \code{method} to \code{"q"}. As with \code{"pa"} it is
+#' important to match the type of data used to score the sites with the type of
+#' data used to estimate the BR functions. For example, if the data used to
+#' construct the BR functions in \code{est_brc} were probabilities, then the
+#' data used to score the sites (\code{sp}) should also be probabilities If BR
+#' functions were constructed using log transformed (e.g.
+#' \code{\link[base]{log1p}}) count data, then the observations used to score
+#' the sites in \code{est_iec} should be transformed in the same way.
 #'
 #' \code{n_reps} determines the number of times the
 #' optimization function (\code{\link[stats]{nlminb}}) is run with different
