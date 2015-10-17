@@ -97,7 +97,7 @@ plot_brc <- function(sp, brc, ref_grad, env_bad = NULL, env_good = NULL,
       xlab <- expression(Environmental ~ Condition ~ (italic(C[env])))
       # xlab <- "Environmental (Reference) Condition" # Bob's xlab
       y_max <- max(sp[, species]) + 0.1   # needed so we can set ylim min to 0
-      if (y_max < 1) y_max <- 1           # so that flat BRCs are flat
+      if (y_max <= 1) y_max <- 1           # so that flat BRCs are flat
       plot(sp[, species] ~ ref_grad, main = names(sp)[species], sub = sub_xlab,
            cex.sub = 0.8, xlab = xlab, ylab = ylab,
            xlim = c(0, 10), ylim = c(0, y_max))
