@@ -255,7 +255,7 @@ est_brc <- function(sp, ref_grad) {
     }
 
     # Add direction and range
-    x <- seq(0, 10, by=0.1)
+    x <- seq(0, 10, by = 0.1)
 
     preds <- dnorm(x, best$par[1], best$par[2]) * best$par[3]
 
@@ -273,7 +273,7 @@ est_brc <- function(sp, ref_grad) {
     }
 
     best$brc_dir <- resp  # response direction
-    best$brc_mag <- max(preds) - min(preds)
+    best$brc_range <- max(preds) - min(preds)
 
     # After fitting a best solution, add the solution to the data frame
     # "brc_pars".
@@ -284,7 +284,7 @@ est_brc <- function(sp, ref_grad) {
                                 best$par[2],
                                 best$par[3],
                                 best$brc_dir,
-                                best$brc_mag)
+                                best$brc_range)
   }
 
 
