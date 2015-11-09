@@ -6,7 +6,9 @@
 
 * When `method = "pa"`, `est_iec` now caps `pc` (expected response value) at 1
 
-* Fixed error in `get_strat` (in `est_iec`) when `n_rep` was less than 10.
+* Fixed error in `get_strat` (in `est_iec`) when `n_rep` was less than 10
+
+* Set x and y limits to `c(0, 10)` in `plot_iec_cor`
 
 # iec v0.1.1
 

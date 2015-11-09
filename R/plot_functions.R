@@ -312,8 +312,9 @@ plot_iec_cor <- function (iec, env_grad, main = NULL,
   slope <- summary(plotstats)$coefficient[2]
 
   # plot IEC site scores against original gradient
+  lim <- c(0, 10)
   plot(env_grad, iec$IEC, xlab = xlab, ylab = "IEC", main = main,
-       cex.sub = 0.8, cex.main = 0.97)
+       xlim = lim, ylim = lim, cex.sub = 0.8, cex.main = 0.97)
   if (time) mtext(Sys.time(), side = 3, cex = 0.7)
   abline(plotstats)
 
