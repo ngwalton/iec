@@ -30,7 +30,7 @@
 #
 # Authors: Nicholas G. Walton and Robert W. Howe
 # Created: Mar 2012
-# Last updated: 25 Sept 2015
+# Last updated: 2 Nov 2016 by Willson Gaul (added n_rand argument to est_brc)
 
 #' Estimate Biotic Response Curves (BRC).
 #'
@@ -69,7 +69,7 @@
 #'   probability-based indicator of ecological condition. Ecological Indicators
 #'   7:793-806.
 #' @seealso \code{\link{scale10}}
-est_brc <- function(sp, ref_grad) {
+est_brc <- function(sp, ref_grad, n_rand) {
   # The input "sp" is a data frame containing the observations of
   # each species or other taxa.  The row names of "sp" must
   # be site names.  All columns must contain
@@ -134,14 +134,14 @@ est_brc <- function(sp, ref_grad) {
   ht_max <- Inf  # Height scaler upper bound
 
   # Generate a data frame to hold the output parameters of BR function.
-  # This is an empty data frame with 6 columns - data types defined.
+  # This is an empty data frame with 9 columns - data types defined.
   brc_pars <- data.frame(character(0), rep(list(numeric(0)), 5),
-                         character(0), numeric(0),
+                         character(0), rep(list(numeric(0)), 2),
                          stringsAsFactors = FALSE)
   # Add column names.
   # Consider changing to: c("taxon", "lof", "r2", "mu", "sigma", "ht")
   names(brc_pars) <-
-    c("Taxon", "LOF", "R2", "Mean", "SD", "H", "direction", "range")
+    c("Taxon", "LOF", "R2", "Mean", "SD", "H", "direction", "range", "significance")
 
   # Expand rows in brc_pars to same length as ncol in sp
   brc_pars[ncol(sp), ]  <- NA
@@ -209,7 +209,92 @@ est_brc <- function(sp, ref_grad) {
     data.frame(start_val)
   }
 
-
+  ## function to add a significane level to the brc based on randomization.
+  # could make n_rand static rather than having it be adjustable by an argument
+  # if my research suggests a certain number of randomizations are needed or ideal
+  # However, given that est_brc will likely need to take another argument telling
+  # whether or not to do randomized significance levels, it probably makes 
+  # sense to keep n_rand as an additional argument.  
+  get_significance <- function(ref_grad, observed, trueLOF, n_rand = 1000){
+       orig_grad <- ref_grad
+       lofs <- vector(mode = "numeric", length = n_rand)
+       observed <- observed
+       
+       # must define the "f" function to be fed to nlminb again inside here
+       # because "f" calls the observed and ref_grad objects from outside
+       # the function and R's lexical scoping dictates that those objects are
+       # searched for in the environment in which a function is defined, not
+       # where it is called.  So, even though I call the function in here after
+       # re-setting ref_grad to the randomized values, it still would look for
+       # ref_grad in the est_brc environment if I didn't re-define the "f"
+       # function here.  
+       # For clarity of reading, I am naming the function "g" in here, just to
+       # make it clear that this is calling a different deffinition of the 
+       # function than what is called in the outer portion of est_brc
+       g <- function(x) {
+            # This function returns the Lack of Fit (LOF) score which will be
+            # minimized with function "nlminb" in the randomization process.
+            # x is a numeric vector containing c(Mean, SD, H).
+            # Note that ref_grad and observed are called from outside the function.
+            # Consider passing from "nlminb", but may slow down processing.
+            
+            # LOF equation:
+            # [(observed-expected)^2]/expected
+            
+            mu_f <- x[1]  # Mean
+            sd_f <- x[2]  # Standard deviation
+            ht_f <- x[3]  # A scaling factor for height of normal curve
+            
+            # Calculate the expected values (Exp) based on the current curve.
+            expected <- dnorm(ref_grad, mu_f, sd_f) * ht_f
+            
+            # Calculate and return the LOF statistic.
+            # Ensure that expected is 0.001 or greater.
+            expected[expected < 0.001] <- 0.001  # Faster than using pmax.
+            
+            # Calculate the squared deviation for each observation.
+            obs_ex2 <- (observed - expected) ^ 2
+            
+            sum(obs_ex2 / expected) # Return the Lack of Fit score.
+       }
+       
+       for(i in 1:n_rand){
+            ref_grad <- sample(orig_grad, replace = F) # randomize gradient
+            
+            # A list to contain the best solution found by "nlminb()".
+            best <- NULL
+            
+            # generate random starting values
+            br_start <- get_strat(mu_min, mu_max, sd_min, sd_max)
+            
+            for (j in 1:nrow(br_start)) {
+                 
+                 # Run "nlminb"
+                 result <- nlminb(start = br_start[j, ], objective = g,
+                                  lower = c(mu_min, sd_min, ht_min),
+                                  upper = c(mu_max, sd_max, ht_max))
+                 
+                 # On the 1st iteration set "best" to "result".
+                 # After the 1st iteration, check if newest "result" is better than
+                 # the current best result ("best").
+                 if (j == 1) {
+                      best <- result
+                      
+                 } else if (result$objective < best$objective) {
+                      # If the new "result" is better than the current best, update
+                      # "best" to "result".
+                      best <- result
+                 }
+            }
+            
+            lofs[i] <- best$objective
+       }
+       dist_fn <- ecdf(lofs)
+       p <- dist_fn(trueLOF)
+       p
+  }
+  
+  
   ## for loop over each species ----
 
   # This for loop iteratively processes each species in the data frame
@@ -274,6 +359,10 @@ est_brc <- function(sp, ref_grad) {
 
     best$brc_dir <- resp  # response direction
     best$brc_range <- max(preds) - min(preds)
+    
+    # add randomiziation significance level
+    best$significance <- get_significance(ref_grad = ref_grad, observed = observed, 
+                              trueLOF = best$objective, n_rand = n_rand)
 
     # After fitting a best solution, add the solution to the data frame
     # "brc_pars".
@@ -284,7 +373,8 @@ est_brc <- function(sp, ref_grad) {
                                 best$par[2],
                                 best$par[3],
                                 best$brc_dir,
-                                best$brc_range)
+                                best$brc_range,
+                                best$significance)
   }
 
 
